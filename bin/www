@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('testing:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Create Socket.IO
+ */
+
+var io = require('socket.io')(server);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+// let room = 0;
+
+let playerID = 0;
+var playerColor = function(){
+    return (!(playerID % 2)) ? "red" : "blue";
+}
+
+var roomID = function(){
+    return "room" + Math.floor(playerID / 2);
+}
+
+io.on('connection', function(socket){
+    socket.on('initialize', ()=>{
+        socket.playerColor = playerColor();
+        socket.roomID = roomID();
+        socket.units = [];
+        var player = {
+            id: playerID % 2,
+            color: socket.playerColor,
+            room: socket.roomID 
+        };
+        socket.join(socket.roomID)
+        socket.emit('initialize player', player);
+        playerID = playerID + 1; 
+    })
+    // socket.on('create team', ()=>{
+    //     var player = {
+    //         id: playerID % 2,
+    //         color: socket.playerColor,
+    //         room: socket.roomID 
+    //     };
+    //     socket.join(socket.roomID)
+    //     socket.emit('initialize player', player);
+    //     playerID = playerID + 1; 
+    // });
+
+    socket.on('ready', (data)=>{
+        for(i=0; i<4; i++){
+            if(data.id == 0){
+                socket.units[i] = data.team[i];
+            }
+            if(data.id == 1){
+                socket.units[i+4] = data.team[i];
+            }
+        }
+        socket.to(socket.roomID).emit('another player ready', {team: data.team, id: data.id})
+    });
+
+    socket.on('set unit', (data)=>{
+        for(i=0; i<4; i++){
+            if(data.id == 0){
+                socket.units[i] = data.team[i];
+            }
+            if(data.id == 1){
+                socket.units[i+4] = data.team[i];
+            }      
+        }
+    });
+
+    socket.on('start game', (player)=> {
+        socket.emit('place units', {units: socket.units, player: player});
+    })
+
+    socket.on('update positions', function (data) { 
+        console.log('update position')
+        console.log(data)
+        socket.to(data.room).emit('update enemy positions', data);
+    });
+
+    socket.on('give damage', function(data){
+        socket.to(data.room).emit('get damage', data);
+    })
+
+    socket.on('end turn', (data) => {
+        socket.to(data.room).emit('start turn');
+    })
+
+    socket.on('surrender', (data)=>{
+        socket.to(data.room).emit('victory');
+    })
+
+    socket.on('disconnect', function(){
+        socket.to(socket.roomID).emit('user disconnected'); 
+    });
+});
+
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+}

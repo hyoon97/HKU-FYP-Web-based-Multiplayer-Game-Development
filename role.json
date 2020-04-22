@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Cleric",
+        "skill": [
+                    "Smite",
+                    "Shielf Bash",
+                    "Purify Wound",
+                    "Holy Nova",
+                    "Haste"
+                ],
+        "description": "A close-quarter-combat unit specialized in supporting and healing other units"
+    },
+    {
+        "name": "Fighter",
+        "skill": [
+                    "Attack",
+                    "Berserk",
+                    "Charge",
+                    "Sunder armour",
+                    "Warcry"
+                ],
+        "description": "A close-quarter-combat unit specialized in dealing damage to enemy"
+    },
+    {
+        "name": "Assassin",
+        "skill": [
+                    "Throwing Knives",
+                    "Assassinate",
+                    "Bleed",
+                    "Flashbang",
+                    "Decoy"
+                ],
+        "description": "A mid-range unit specialized in annoying enemy"
+    },
+    {
+        "name": "Ranger",
+        "skill": [
+                    "Arrows",
+                    "Bullseye",
+                    "Poison Arrow",
+                    "Hunter's Mark",
+                    "Arrow Mark"
+                ],
+        "description": "A wide-range unit specialized in dealing damage from far position"
+    },
+    {
+        "name": "Druid",
+        "skill": [
+                    "Root Bind",
+                    "Thorn Whip",
+                    "Bark Skin",
+                    "Tree of Life",
+                    "Buff Siphon"
+                ],
+        "description": "A multi-purpose unit"
+    },
+    {
+        "name": "Wizard",
+        "skill": [
+                    "Magic Missile ",
+                    "Fireball",
+                    "Lightning Strike",
+                    "Teleport",
+                    "Slowness"
+                ],
+        "description": "A wide-range unit specialized in dealing high damage from far position"
+    }
+]

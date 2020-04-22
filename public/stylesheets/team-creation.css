@@ -1,0 +1,436 @@
+.team-creation-page {
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.team-creation-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#team-creation-frame {
+    width: 1200px;
+}
+
+.team-creation-container .wrap-add-character1 {
+    position: absolute;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 17%;
+    top: 26%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-add-character2 {
+    position: absolute;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 33.7%;
+    top: 26%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-add-character3 {
+    position: absolute;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 50.4%;
+    top: 26%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-add-character4 {
+    position: absolute;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 67.1%;
+    top: 26%;
+    width: 60%;
+}
+
+.team-creation-container .add-character{
+    width: 27%;
+}
+
+.team-creation-container .wrap-add-character-text1{
+    position: absolute;
+    pointer-events: none;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 17.6%;
+    top: 34%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-add-character-text2{
+    position: absolute;
+    pointer-events: none;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 34.3%;
+    top: 34%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-add-character-text3{
+    position: absolute;
+    pointer-events: none;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 51%;
+    top: 34%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-add-character-text4{
+    position: absolute;
+    pointer-events: none;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 67.7%;
+    top: 34%;
+    width: 60%;
+}
+
+.team-creation-container .add-character-text{
+    width: 25%;
+}
+
+.team-creation-container .wrap-quit-button {
+    position: absolute;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 30%;
+    top: 79.5%;
+    width: 60%;
+}
+
+.team-creation-container .wrap-ready-button {
+    position: absolute;
+    border: none;
+    z-index: 1;
+    margin: 0 auto;
+    left: 53.5%;
+    top: 79.5%;
+    width: 60%;
+}
+
+.team-creation-container .quit-button{
+    width: 28%;
+}
+
+.team-creation-container .ready-button{
+    width: 27%;
+}
+
+.team-creation-container .validate-input {
+    position: absolute;
+    border: none;
+}
+
+.role-selection-container {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+#role-selection-frame {
+    width: 1200px;
+}
+
+.role-selection-container .wrap-close-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 79%;
+    top: 16.5%;
+    width: 60%;
+}
+
+.role-selection-container .close-button{
+    width: 9%;
+}
+
+.role-selection-container .close-button:hover{
+    width: 10%;
+}
+
+.role-selection-container .wrap-c-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 19.2%;
+    top: 29.3%;
+    width: 60%;
+}
+
+.role-selection-container #c-button{
+    width: 7.4%;
+}
+
+.role-selection-container .wrap-f-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 24%;
+    top: 29%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-a-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 29.1%;
+    top: 29.3%;
+    width: 60%;
+}
+
+.role-selection-container #a-button{
+    width: 7.8%;
+}
+
+.role-selection-container .wrap-r-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 19%;
+    top: 36%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-d-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 24%;
+    top: 36%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-w-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 29%;
+    top: 36%;
+    width: 60%;
+}
+
+.role-selection-container .role-button{
+    width: 8%;
+}
+
+.role-selection-container .wrap-sample-image {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 22%;
+    top: 45%;
+    width: 60%;
+}
+
+.role-selection-container .sample-image {
+    width: 15%;
+}
+
+.role-selection-container .wrap-select-button1 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 40.5%;
+    top: 61.9%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-select-button2 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 53.5%;
+    top: 61.9%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-select-button3 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 66.5%;
+    top: 61.9%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-select-button4 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 40.5%;
+    top: 68%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-select-button5 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 53.5%;
+    top: 68%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-select-button6 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 66.5%;
+    top: 68%;
+    width: 60%;
+}
+
+.role-selection-container .select-button{
+    width: 4.5%;
+}
+
+.role-selection-container .selected-button{
+    display: none;
+    width: 4.5%;
+}
+
+.role-selection-container .wrap-action-button1 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 43.5%;
+    top: 62%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-action-button2 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 56.5%;
+    top: 62%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-action-button3 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 69.5%;
+    top: 62%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-action-button4 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 43.5%;
+    top: 68.1%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-action-button5 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 56.5%;
+    top: 68.1%;
+    width: 60%;
+}
+
+.role-selection-container .wrap-action-button6 {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 69.5%;
+    top: 68.1%;
+    width: 60%;
+}
+
+.role-selection-container .action-button{
+    width: 15%;
+}
+
+.button-label {
+    pointer-events: none;
+    position: absolute;
+    top: 45%;
+    left: 7.8%;
+    color:rgb(0,145,255);
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+}
+
+.role-selection-container .wrap-save-button {
+    position: absolute;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 45%;
+    top: 79%;
+    width: 60%;
+}
+
+.role-selection-container .save-button{
+    width: 50%;
+}
+
+.role-selection-container .wrap-role-description {
+    position: absolute;
+    pointer-events: none;
+    border: none;
+    z-index: 3;
+    margin: 0 auto;
+    left: 21.2%;
+    top: 61.2%;
+    width: 60%;
+}
+
+.role-selection-container .role-description{
+    width: 20%;
+}
+
+.role-selection-container .validate-input {
+    position: absolute;
+    border: none;
+}

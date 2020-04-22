@@ -1,0 +1,81 @@
+#bg {
+    position: fixed; 
+    top: 0%; 
+    left: 0%; 
+    transform: translate(-15%, -5%);
+    opacity: 0.60;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bg-overlay {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+.menu-page {
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.menu-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#menu-ui {
+    width: 1000px;
+}
+
+.menu-container .wrap-start-game-button {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 38.7%;
+    top: 30%;
+    width: 60%;
+}
+
+.menu-container .start-game-button {
+    width: 35%;
+}
+
+.menu-container .wrap-find-room-button {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 38.7%;
+    top: 42%; /* Adjust this value to move the positioned div up and down */
+    width: 60%; /* Set the width of the positioned div */
+}
+
+.menu-container .find-room-button {
+    width: 35%;
+}
+
+.menu-container .wrap-logout-button {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 38.7%;
+    top: 55%; /* Adjust this value to move the positioned div up and down */
+    width: 60%; /* Set the width of the positioned div */
+}
+
+.menu-container .logout-button {
+    width: 35%;
+}
+
+.menu-container .validate-input {
+    position: absolute;
+    border: none;
+}

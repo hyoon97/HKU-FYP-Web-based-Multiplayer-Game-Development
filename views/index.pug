@@ -1,0 +1,154 @@
+doctype html
+html
+    img(src="/images/ui/login-bg.jpg" id="bg" alt="")
+    head
+        title= title
+        link(rel='stylesheet', type='text/css', href='/stylesheets/menu.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/team-creation.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/game-testing.css')
+        script(src='/socket.io/socket.io.js')
+        script(src='/jquery/jquery.js')
+        script(src='/crafty/crafty.js')
+        script(src='/javascripts/ui.js')
+        script(src='/javascripts/game.js')
+    body
+        block content
+            div(class='bg-overlay')
+            div(class='menu-page')
+                div(class='menu-container')
+                    img(src='/images/ui/menu-frame.png' id='menu-ui' alt='')
+                    div(class="wrap-start-game-button validate-input")
+                        img(class='start-game-button' src='/images/ui/menu-start-game-button.png')
+                    div(class="wrap-find-room-button validate-input")
+                        img(class='find-room-button' src='/images/ui/menu-find-room-button.png')
+                    div(class="wrap-logout-button validate-input")
+                        img(class='logout-button' src='/images/ui/menu-logout-button.png')
+
+            div(class='team-creation-page')
+                div(class='team-creation-container')
+                    img(id='team-creation-frame' src='/images/ui/team-creation-frame.png' alt='')
+
+                    div(class="wrap-add-character1 validate-input")
+                        img(class='add-character' id='add-character1' src='/images/ui/team-creation-slot.png')
+                    div(class="wrap-add-character-text1 validate-input")
+                        img(class='add-character-text' id='add-character-text0' src='/images/ui/team-creation-add-character-text.png')
+
+                    div(class="wrap-add-character2 validate-input")
+                        img(class='add-character' id='add-character2' src='/images/ui/team-creation-slot.png')
+                    div(class="wrap-add-character-text2 validate-input")
+                        img(class='add-character-text' id='add-character-text1' src='/images/ui/team-creation-add-character-text.png')
+
+                    div(class="wrap-add-character3 validate-input")
+                        img(class='add-character' id='add-character3' src='/images/ui/team-creation-slot.png')
+                    div(class="wrap-add-character-text3 validate-input")
+                        img(class='add-character-text' id='add-character-text2' src='/images/ui/team-creation-add-character-text.png')
+
+                    div(class="wrap-add-character4 validate-input")
+                        img(class='add-character' id='add-character4' src='/images/ui/team-creation-slot.png')
+                    div(class="wrap-add-character-text4 validate-input")
+                        img(class='add-character-text' id='add-character-text3' src='/images/ui/team-creation-add-character-text.png')
+
+                    div(class="wrap-quit-button validate-input")
+                        img(class='quit-button' src='/images/ui/team-creation-quit-button.png')
+                    div(class="wrap-ready-button validate-input")
+                        img(class='ready-button' src='/images/ui/team-creation-ready-button.png')
+                        //- form(action='/game' method='post')
+                        //-     input(type='hidden' id='pieces' name='pieces')
+                        //-     input(type='image' class='ready-button' src='/images/ui/team-creation-ready-button.png')
+                    
+                div(class='role-selection-container')
+                    img(id='role-selection-frame' src='/images/ui/role-selection-frame.png' alt='')
+
+                    div(class="wrap-close-button validate-input")
+                        img(class='close-button' src='/images/ui/role-selection-close-button.png')
+
+                    div(class="wrap-c-button validate-input")
+                        img(class='role-button' id='c-button' src='/images/ui/role-selection-c-button.png')
+                    div(class="wrap-f-button validate-input")
+                        img(class='role-button' id='f-button' src='/images/ui/role-selection-f-button.png')
+                    div(class="wrap-a-button validate-input")
+                        img(class='role-button' id='a-button' src='/images/ui/role-selection-a-button.png')
+                    div(class="wrap-r-button validate-input")
+                        img(class='role-button' id='r-button' src='/images/ui/role-selection-r-button.png')
+                    div(class="wrap-d-button validate-input")
+                        img(class='role-button' id='d-button' src='/images/ui/role-selection-d-button.png')
+                    div(class="wrap-w-button validate-input")
+                        img(class='role-button' id='w-button' src='/images/ui/role-selection-w-button.png')
+
+                    div(class="wrap-sample-image validate-input")
+                        img(class='sample-image')
+
+                    div(class="wrap-select-button1 validate-input")
+                        img(class='select-button' id='select-button1' src='/images/ui/role-selection-select-button.png')
+                    div(class="wrap-action-button1 validate-input")
+                        img(class='action-button' id='action-button1' src='/images/ui/role-selection-action-button.png')
+                        label(class='button-label' id='label1')
+
+                    div(class="wrap-select-button2 validate-input")
+                        img(class='select-button' id='select-button2' src='/images/ui/role-selection-select-button.png')
+                    div(class="wrap-action-button2 validate-input")
+                        img(class='action-button' id='action-button2' src='/images/ui/role-selection-action-button.png')
+                        label(class='button-label' id='label2')
+
+                    div(class="wrap-select-button3 validate-input")
+                        img(class='select-button' id='select-button3' src='/images/ui/role-selection-select-button.png')
+                    div(class="wrap-action-button3 validate-input")
+                        img(class='action-button' id='action-button3' src='/images/ui/role-selection-action-button.png')
+                        label(class='button-label' id='label3')
+
+                    div(class="wrap-select-button4 validate-input")
+                        img(class='select-button' id='select-button4' src='/images/ui/role-selection-select-button.png')
+                    div(class="wrap-action-button4 validate-input")
+                        img(class='action-button' id='action-button4' src='/images/ui/role-selection-action-button.png')
+                        label(class='button-label' id='label4')
+
+                    div(class="wrap-select-button5 validate-input")
+                        img(class='select-button' id='select-button5' src='/images/ui/role-selection-select-button.png')
+                    div(class="wrap-action-button5 validate-input")
+                        img(class='action-button' id='action-button5' src='/images/ui/role-selection-action-button.png')
+                        label(class='button-label' id='label5')
+
+                    div(class="wrap-select-button6 validate-input")
+                        img(class='select-button' id='select-button6' src='/images/ui/role-selection-select-button.png')
+                    div(class="wrap-action-button6 validate-input")
+                        img(class='action-button' id='action-button6' src='/images/ui/role-selection-action-button.png')
+                        label(class='button-label' id='label6')
+                    
+                    div(class="wrap-save-button validate-input")
+                        img(class='save-button' id='save-button' src='/images/ui/role-selection-save-button.png')
+                    div(class="wrap-role-description validate-input")
+                        p(class='role-description')
+                    div(class="wrap-action-description validate-input")
+                        p(class='action-description')
+
+            div(class='game-page')
+                div(class='game')
+                //- div(class='character-container')
+                //-     img(class='character-display' src='/images/ui/game-character-display.png')
+
+                //- div(class='action-container')
+                //-     img(class='action-set' src='/images/ui/game-skill-set.png')
+                //-     div(class='wrap-action-button1 validate-input')
+                //-         img(class='action-button' id='action-button1' src='/images/ui/game-skill-button.png')
+                //-         label(class='action-button-label' id='action-label1')
+
+                //-     div(class='wrap-action-button2 validate-input')
+                //-         img(class='action-button' id='action-button2' src='/images/ui/game-skill-button.png')
+                //-         label(class='action-button-label' id='action-label2')
+
+                //-     div(class='wrap-action-button3 validate-input')
+                //-         img(class='action-button' id='action-button3' src='/images/ui/game-skill-button.png')
+                //-         label(class='action-button-label' id='action-label3')
+
+                //-     div(class='wrap-action-button4 validate-input')
+                //-         img(class='action-button' id='action-button4' src='/images/ui/game-skill-button.png')
+                //-         label(class='action-button-label' id='action-label4')
+
+                //-     div(class='wrap-action-button5 validate-input')
+                //-         img(class='action-button' id='action-button5' src='/images/ui/game-skill-button.png')
+                //-         label(class='action-button-label' id='action-label5')
+
+                div(class='chat-container')
+                    
+                    
+                    
