@@ -6,6 +6,8 @@ html
         link(rel='stylesheet', type='text/css', href='/stylesheets/menu.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/team-creation.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/game-testing.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/registration.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/login.css')
         script(src='/socket.io/socket.io.js')
         script(src='/jquery/jquery.js')
         script(src='/crafty/crafty.js')
@@ -14,6 +16,44 @@ html
     body
         block content
             div(class='bg-overlay')
+
+            div(class='registration-page')
+                div(class='registration-container')
+                    img(src='/images/ui/registration-ui.png' id='registration-ui' alt='')
+                    form(id="registration-form" method="")
+                        div(class="wrap-username validate-input" data-validate = "Enter username")
+                            input(class="username" id="username" type="text" name="username")
+                        div(class="wrap-password validate-input" data-validate="Enter password")
+                            input(class="password" id="password" type="password" name="password")
+                        div(class="wrap-confirm validate-input" data-validate="Re-enter password")
+                            input(class="confirm" id="confirm" type="password" name="confirm")
+                        div(class="wrap-email validate-input" data-validate="Enter email")
+                            input(class="email" id="email" type="text" name="email")
+                        div(class='wrap-enter-button .validate-input')
+                            input(class='enter-button' id="submit" type="image" src='/images/ui/registration-button.png' alt="Enter")
+                            //- input(type='submit' value='Submit')
+
+            div(class='login-page')
+                div(class='login-container')
+                    span(class='ui-label') Log-in
+                    img(src='/images/ui/login-ui.png' id='login-ui' alt='')
+                    div(class='wrap-forgot')
+                        img(class='forgot-button' src='/images/ui/button.png' alt='')
+                        label(class='forgot-label') Forgot Password
+                    div(class='wrap-registration')
+                        input(class='registration-button' type='image' src='/images/ui/button.png' onClick='register()' alt='Register')
+                        label(class='registration-label') Registration
+                    label(class='error-label') #{error}
+                    label(class='username-label') Username
+                    label(class='password-label') Password
+                    form(id="login-form" method='')
+                        div(class="wrap-username validate-input" data-validate = "Enter username")
+                            input(class="username" id='username' type="text" name="username")
+                        div(class="wrap-password validate-input" data-validate="Enter password")
+                            input(class="password" id='password' type="password" name="password")                
+                        div(class='wrap-enter-button validate-input')
+                            input(class='enter-button' id='submit' type='image' src='/images/ui/login-button.png' alt='Enter')
+
             div(class='menu-page')
                 div(class='menu-container')
                     img(src='/images/ui/menu-frame.png' id='menu-ui' alt='')

@@ -9,6 +9,9 @@ var debug = require('debug')('testing:server');
 var http = require('http');
 var mms = require('../config/mms')
 
+const bcrypt = require("bcryptjs");
+const User = require("../model/User");
+
 /**
  * Get port from environment and store in Express.
  */
@@ -52,6 +55,32 @@ let rooms = 0;
 
 // associate player with socket
 var userToSocket = new Map;
+
+require('socketio-auth')(io, {
+    authenticate: async (socket, data, callback) => {
+      //get credentials sent by the client
+        var username = data.username;
+        var password = data.password;
+   
+        try {
+            let user = await User.findOne({
+                username
+            });
+
+            if (!user)
+                return callback(new Error("User not found"));
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch)
+                return callback(new Error("Incorrect Password"));
+            else
+                return callback(null, true);
+
+        } catch (e) {
+            console.error(e);
+        }
+    }
+});
 
 io.on('connection', function(socket){
     socket.on('initialize', ()=>{

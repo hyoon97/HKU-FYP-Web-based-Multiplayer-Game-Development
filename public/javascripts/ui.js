@@ -273,6 +273,33 @@ socket.on('user disconnected', () =>{
 });
 
 $(document).ready(function(){
+    $('.login-form').onsubmit(function(){
+        var username = $('.username').val();
+        var password = $('.password').val();
+
+        socket = io.connect('http://localhost:3000');
+        socket.on('connect', () => {
+            socket.emit('authentication', {username: username, password: password});
+
+            socket.on('authenticated', () => {
+
+            });
+
+            socket.on('unauthorized', (err) => {
+
+            });
+        });
+    })
+});
+
+$(document).ready(function() {
+    $('.registration-button').click(function() {
+        $('.registration-page').show();
+        $('.login-page').hide();
+    })
+});
+
+$(document).ready(function(){
     $('.start-game-button').click(function(){
         $('.team-creation-page').show();
         $('.menu-page').hide();

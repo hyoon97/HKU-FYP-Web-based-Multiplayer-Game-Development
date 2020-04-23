@@ -1,0 +1,167 @@
+#bg {
+    position: fixed; 
+    top: 0%; 
+    left: 0%; 
+    transform: translate(-15%, -5%);
+    opacity: 0.60;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bg-overlay {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+.registration-page {
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.registration-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.registration-form {
+    width: 100%;
+}
+
+#registration-ui {
+    width: 900px;
+}
+
+.registration-container .wrap-username {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 40.7%;
+    top: 33.3%;
+    width: 60%;
+}
+
+.registration-container .wrap-password {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 40.7%;
+    top: 44.5%; /* Adjust this value to move the positioned div up and down */
+    width: 60%; /* Set the width of the positioned div */
+}
+
+.registration-container .wrap-confirm {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 40.7%;
+    top: 47%; /* Adjust this value to move the positioned div up and down */
+    width: 60%; /* Set the width of the positioned div */
+}
+
+.registration-container .wrap-confirm {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 40.7%;
+    top: 55.5%; /* Adjust this value to move the positioned div up and down */
+    width: 60%; /* Set the width of the positioned div */
+}
+
+.registration-container .wrap-email {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 40.7%;
+    top: 66.5%; /* Adjust this value to move the positioned div up and down */
+    width: 60%; /* Set the width of the positioned div */
+}
+
+.regiatration-container .validate-input {
+    position: absolute;
+    border: none;
+}
+
+.username {
+    border: none;
+    font-family: Poppins-Regular;
+    font-size: 16px;
+    color: black;
+    line-height: 1.2;
+    
+    display: block;
+    width: 26.5%;
+    height: 45%;
+    /* background: transparent; */
+    padding: 5px 5px 5px 10px;
+}
+
+.password {
+    border: none;
+    font-family: Poppins-Regular;
+    font-size: 16px;
+    color: black;
+    line-height: 1.2;
+  
+    display: block;
+    width: 26.5%;
+    height: 45%;
+    /* background: transparent; */
+    padding: 5px 5px 5px 10px;
+}
+
+.confirm {
+    border: none;
+    font-family: Poppins-Regular;
+    font-size: 16px;
+    color: black;
+    line-height: 1.2;
+  
+    display: block;
+    width: 26.5%;
+    height: 45%;
+    /* background: transparent; */
+    padding: 5px 5px 5px 10px;
+}
+
+.email {
+    border: none;
+    font-family: Poppins-Regular;
+    font-size: 16px;
+    color: black;
+    line-height: 1.2;
+  
+    display: block;
+    width: 26.5%;
+    height: 45%;
+    /* background: transparent; */
+    padding: 5px 5px 5px 10px;
+}
+
+.registration-container .wrap-enter-button {
+    position: absolute;
+    border: none;
+    z-index: 999;
+    margin: 0 auto;
+    left: 42.2%;
+    top: 74%;
+}
+
+.registration-container .enter-button {
+    width: 50%;
+    height: 50%;
+}
+
+input:focus {
+    outline:none;
+}
