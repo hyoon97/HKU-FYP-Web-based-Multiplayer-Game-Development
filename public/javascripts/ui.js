@@ -241,6 +241,43 @@ var ready = 0;
 
 var socket;
 
+// all socketio operations after authentication
+// param: socket
+var socketAuthenticated = (socket) => {
+
+    socket.on('initialize player', (player) => {
+        this.player = player;
+        if(player.id == 0){
+            xPosition = 9;
+            yPosition = 23;
+        }
+        if(player.id == 1){
+            xPosition = 11;
+            yPosition = 23;
+        }
+        console.log(player);
+    });
+    
+    socket.on('another player ready', (data)=>{
+        ready += 1
+        console.log(data.id)
+        console.log(data.team)
+        socket.emit('set unit', {team: data.team, id: data.id, room: player.room})
+        if(ready === 2){
+            
+            $('.team-creation-page').hide()
+            $('.game-page').show()
+            startGame();
+            socket.emit('start game', player);
+        }
+    });
+    
+    socket.on('user disconnected', () =>{
+        alert("Your buddy has left or refreshed. Refresh to join a new room.")
+    });
+
+}
+
 $(document).ready(function(){
     $('.login-form').onsubmit(function(){
         var username = $('.username').val();
@@ -251,38 +288,7 @@ $(document).ready(function(){
             socket.emit('authentication', {username: username, password: password});
 
             socket.on('authenticated', () => { //user authenticated, can do other things
-
-                socket.on('initialize player', (player) => {
-                    this.player = player;
-                    if(player.id == 0){
-                        xPosition = 9;
-                        yPosition = 23;
-                    }
-                    if(player.id == 1){
-                        xPosition = 11;
-                        yPosition = 23;
-                    }
-                    console.log(player);
-                });
-                
-                socket.on('another player ready', (data)=>{
-                    ready += 1
-                    console.log(data.id)
-                    console.log(data.team)
-                    socket.emit('set unit', {team: data.team, id: data.id, room: player.room})
-                    if(ready === 2){
-                        
-                        $('.team-creation-page').hide()
-                        $('.game-page').show()
-                        startGame();
-                        socket.emit('start game', player);
-                    }
-                });
-                
-                socket.on('user disconnected', () =>{
-                    alert("Your buddy has left or refreshed. Refresh to join a new room.")
-                });
-
+                socketAuthenticated(socket);
             });
 
             socket.on('unauthorized', (err) => {
