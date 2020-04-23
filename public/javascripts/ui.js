@@ -239,38 +239,7 @@ var skills = [];
 var slot;
 var ready = 0;
 
-var socket = io.connect('http://localhost:3000');
-
-socket.on('initialize player', (player) => {
-    this.player = player;
-    if(player.id == 0){
-        xPosition = 9;
-        yPosition = 23;
-    }
-    if(player.id == 1){
-        xPosition = 11;
-        yPosition = 23;
-    }
-    console.log(player);
-});
-
-socket.on('another player ready', (data)=>{
-    ready += 1
-    console.log(data.id)
-    console.log(data.team)
-    socket.emit('set unit', {team: data.team, id: data.id, room: player.room})
-    if(ready === 2){
-        
-        $('.team-creation-page').hide()
-        $('.game-page').show()
-        startGame();
-        socket.emit('start game', player);
-    }
-});
-
-socket.on('user disconnected', () =>{
-    alert("Your buddy has left or refreshed. Refresh to join a new room.")
-});
+var socket;
 
 $(document).ready(function(){
     $('.login-form').onsubmit(function(){
@@ -281,7 +250,38 @@ $(document).ready(function(){
         socket.on('connect', () => {
             socket.emit('authentication', {username: username, password: password});
 
-            socket.on('authenticated', () => {
+            socket.on('authenticated', () => { //user authenticated, can do other things
+
+                socket.on('initialize player', (player) => {
+                    this.player = player;
+                    if(player.id == 0){
+                        xPosition = 9;
+                        yPosition = 23;
+                    }
+                    if(player.id == 1){
+                        xPosition = 11;
+                        yPosition = 23;
+                    }
+                    console.log(player);
+                });
+                
+                socket.on('another player ready', (data)=>{
+                    ready += 1
+                    console.log(data.id)
+                    console.log(data.team)
+                    socket.emit('set unit', {team: data.team, id: data.id, room: player.room})
+                    if(ready === 2){
+                        
+                        $('.team-creation-page').hide()
+                        $('.game-page').show()
+                        startGame();
+                        socket.emit('start game', player);
+                    }
+                });
+                
+                socket.on('user disconnected', () =>{
+                    alert("Your buddy has left or refreshed. Refresh to join a new room.")
+                });
 
             });
 
