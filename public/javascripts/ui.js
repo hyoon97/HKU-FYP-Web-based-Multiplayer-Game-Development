@@ -279,15 +279,20 @@ var socketAuthenticated = (socket) => {
 }
 
 $(document).ready(function(){
-    $('.login-form').onsubmit(function(){
-        var username = $('.username').val();
-        var password = $('.password').val();
+    $('#login-form').submit( () => {
+        var username = $('#login-username').val();
+        var password = $('#login-password').val();
+
+        $('#login-username').val('');
+        $('#login-password').val('');
 
         socket = io.connect('http://localhost:3000');
         socket.on('connect', () => {
             socket.emit('authentication', {username: username, password: password});
 
             socket.on('authenticated', () => { //user authenticated, can do other things
+                $('.menu-page').show();
+                $('.login-page').hide();
                 socketAuthenticated(socket);
             });
 
@@ -295,6 +300,8 @@ $(document).ready(function(){
 
             });
         });
+
+        return false;
     })
 });
 

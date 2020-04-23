@@ -12,7 +12,7 @@ html
         script(src='/jquery/jquery.js')
         script(src='/crafty/crafty.js')
         script(src='/javascripts/ui.js')
-        script(src='/javascripts/game.js')
+        //- script(src='/javascripts/game.js')
     body
         block content
             div(class='bg-overlay')
@@ -48,11 +48,11 @@ html
                     label(class='password-label') Password
                     form(id="login-form" method='')
                         div(class="wrap-username validate-input" data-validate = "Enter username")
-                            input(class="username" id='username' type="text" name="username")
+                            input(class="login-username" id='login-username' type="text" name="username")
                         div(class="wrap-password validate-input" data-validate="Enter password")
-                            input(class="password" id='password' type="password" name="password")                
+                            input(class="login-password" id='login-password' type="password" name="password")                
                         div(class='wrap-enter-button validate-input')
-                            input(class='enter-button' id='submit' type='image' src='/images/ui/login-button.png' alt='Enter')
+                            input(class='login-enter-button' id='login-submit' type='image' src='/images/ui/login-button.png' alt='Enter')
 
             div(class='menu-page')
                 div(class='menu-container')

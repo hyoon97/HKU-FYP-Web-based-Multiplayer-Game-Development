@@ -11,6 +11,9 @@ var mms = require('../config/mms')
 
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
+var InitiateMongoServer = require("../config/db");
+
+InitiateMongoServer();
 
 /**
  * Get port from environment and store in Express.
@@ -58,7 +61,7 @@ var userToSocket = new Map;
 
 require('socketio-auth')(io, {
     authenticate: async (socket, data, callback) => {
-      //get credentials sent by the client
+        //get credentials sent by the client
         var username = data.username;
         var password = data.password;
    
