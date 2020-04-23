@@ -93,7 +93,7 @@
     border: none;
 }
 
-.username {
+.regis-username {
     border: none;
     font-family: Poppins-Regular;
     font-size: 16px;
@@ -107,7 +107,7 @@
     padding: 5px 5px 5px 10px;
 }
 
-.password {
+.regis-password {
     border: none;
     font-family: Poppins-Regular;
     font-size: 16px;
@@ -121,7 +121,7 @@
     padding: 5px 5px 5px 10px;
 }
 
-.confirm {
+.regis-confirm {
     border: none;
     font-family: Poppins-Regular;
     font-size: 16px;
@@ -135,7 +135,7 @@
     padding: 5px 5px 5px 10px;
 }
 
-.email {
+.regis-email {
     border: none;
     font-family: Poppins-Regular;
     font-size: 16px;
@@ -158,7 +158,7 @@
     top: 74%;
 }
 
-.registration-container .enter-button {
+.registration-container .regis-enter-button {
     width: 50%;
     height: 50%;
 }

@@ -288,7 +288,7 @@ $(document).ready(function(){
 
         socket = io.connect('http://localhost:3000');
         socket.on('connect', () => {
-            socket.emit('authentication', {username: username, password: password});
+            socket.emit('authentication', {newUserReg: false, username: username, password: password, confirm: "", email: ""});
 
             socket.on('authenticated', () => { //user authenticated, can do other things
                 $('.menu-page').show();
@@ -302,6 +302,38 @@ $(document).ready(function(){
         });
 
         return false;
+    })
+});
+
+$(document).ready(function() {
+    $('#registration-form').submit( () => {
+        var username = $('#regis-username').val();
+        var password = $('#regis-password').val();
+        var confirm = $('#regis-confirm').val();
+        var email = $('#regis-email').val();
+
+        $('#regis-username').val('');
+        $('#regis-password').val('');
+        $('#regis-confirm').val('');
+        $('#regis-email').val('');
+
+        socket = io.connect('http://localhost:3000');
+        socket.on('connect', () => {
+            socket.emit('authentication', {newUserReg: true, username: username, password: password, confirm: confirm, email: email});
+
+            socket.on('authenticated', () => { //user authenticated, can do other things
+                $('.menu-page').show();
+                $('.registration-page').hide();
+                socketAuthenticated(socket);
+            });
+
+            socket.on('unauthorized', (err) => {
+
+            });
+        });
+
+        return false;
+
     })
 });
 

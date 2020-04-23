@@ -7,10 +7,14 @@
 var app = require('../app');
 var debug = require('debug')('testing:server');
 var http = require('http');
+
+
 var mms = require('../config/mms')
+mms.start();
 
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
+var isemail = require('isemail');
 var InitiateMongoServer = require("../config/db");
 
 InitiateMongoServer();
@@ -61,27 +65,68 @@ var userToSocket = new Map;
 
 require('socketio-auth')(io, {
     authenticate: async (socket, data, callback) => {
-        //get credentials sent by the client
-        var username = data.username;
-        var password = data.password;
-   
-        try {
-            let user = await User.findOne({
-                username
-            });
+        if (data.newUserReg === true) { // if new user wants to register
+            var username = data.username;
+            var password = data.password;
+            var confirm = data.confirm;
+            var email = data.email;
 
-            if (!user)
-                return callback(new Error("User not found"));
+            if (username === "")
+                return callback(new Error('Username field must be filled'));
+            if (password.length < 8)
+                return callback(new Error('Password must be at least 8 characters'));
+            if (password != confirm)
+                return callback(new Error('Two password inputs do not match'));
+            if (isemail.validate(email, {errorLevel: true}) > 0)
+                return callback(new Error('Invalid email'));
 
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch)
-                return callback(new Error("Incorrect Password"));
-            else
+            try {
+                let user = await User.findOne({
+                    email
+                });
+                if (user)
+                    return callback(new Error('A user with this email has already been registered'));
+
+                user = new User({
+                    username,
+                    email,
+                    password
+                });
+
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(password, salt);
+          
+                await user.save();
+
                 return callback(null, true);
 
-        } catch (e) {
-            console.error(e);
+            } catch (e) {
+
+            }   
+        } else { // if registered user wants to log in
+            //get credentials sent by the client
+            var username = data.username;
+            var password = data.password;
+   
+            try {
+                let user = await User.findOne({
+                    username
+                });
+
+                if (!user)
+                    return callback(new Error("User not found"));
+
+                const isMatch = await bcrypt.compare(password, user.password);
+                if (!isMatch)
+                    return callback(new Error("Incorrect Password"));
+                else
+                    return callback(null, true);
+
+            } catch (e) {
+                console.error(e);
+            }
         }
+
     }
 });
 
