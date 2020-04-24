@@ -132,9 +132,9 @@ require('socketio-auth')(io, {
 
 io.on('connection', function(socket){
     socket.on('initialize', ()=>{
-        socket.playerColor = playerColor();
-        socket.roomID = roomID();
-        socket.units = [];
+        // socket.playerColor = playerColor();
+        // socket.roomID = roomID();
+        // socket.units = [];
         var player = {
             id: playerID % 2,
             color: socket.playerColor,
@@ -156,10 +156,25 @@ io.on('connection', function(socket){
     // });
 
     // Start a game using MMS
-    socket.on('quickplay', (data) => {
-        const decoded = jwt.verify(data.token, jwtconfig.code);
-        userToSocket.set(decoded.user, socket.id);
-        mms.push(decoded.user);
+    socket.on('quickplay', async (data) => {
+        var username = data.username;
+        var user;
+        try {
+            let user = await User.findOne({
+                username
+            });
+
+            if (!user) {
+                return;
+            }
+            
+            userToSocket.set(user, socket);
+            mms.push(user);
+
+        } catch (e) {
+
+        }
+
     });
 
     socket.on('ready', (data)=>{
@@ -216,10 +231,26 @@ io.on('connection', function(socket){
 // might need to relocate
 mms.on('match', (result) => {
     // put the two players together in a game
-    io.to(userToSocket(result.a)).join(`room-${++rooms}`);
-    io.to(userToSocket(result.b)).join(`room-${rooms}`);
-    socket.broadcast.to(rooms).emit('foundGame', {});
-  })
+    var socket_1 = userToSocket.get(result.a);
+    var socket_2 = userToSocket.get(result.b);
+
+    socket_1.playerColor = "red";
+    socket_2.playerColor = "blue";
+    socket_1.roomID = rooms;
+    socket_2.roomID = rooms;
+    socket_1.units = [];
+    socket_2.units = [];
+    // var player = {
+    //     id: playerID % 2,
+    //     color: socket.playerColor,
+    //     room: socket.roomID 
+    // };
+    socket_1.join(`room-${++rooms}`);
+    socket_2.join(`room-${rooms}`);
+    socket_1.emit('initialize player', {id: 0, color: socket_1.playerColor, room: socket_1.roomID});
+    socket_2.emit('initialize player', {id: 1, color: socket_2.playerColor, room: socket_2.roomID});
+    // socket.broadcast.to(rooms).emit('foundGame', {});
+})
 
 /**
  * Normalize a port into a number, string, or false.

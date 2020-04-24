@@ -239,6 +239,7 @@ var skills = [];
 var slot;
 var ready = 0;
 
+var username;
 var socket;
 
 // all socketio operations after authentication
@@ -246,6 +247,9 @@ var socket;
 var socketAuthenticated = (socket) => {
 
     socket.on('initialize player', (player) => {
+        $('.team-creation-page').show();
+        $('.menu-page').hide();
+        
         this.player = player;
         if(player.id == 0){
             xPosition = 9;
@@ -280,7 +284,7 @@ var socketAuthenticated = (socket) => {
 
 $(document).ready(function(){
     $('#login-form').submit( () => {
-        var username = $('#login-username').val();
+        username = $('#login-username').val();
         var password = $('#login-password').val();
 
         $('#login-username').val('');
@@ -307,7 +311,7 @@ $(document).ready(function(){
 
 $(document).ready(function() {
     $('#registration-form').submit( () => {
-        var username = $('#regis-username').val();
+        username = $('#regis-username').val();
         var password = $('#regis-password').val();
         var confirm = $('#regis-confirm').val();
         var email = $('#regis-email').val();
@@ -346,9 +350,10 @@ $(document).ready(function() {
 
 $(document).ready(function(){
     $('.start-game-button').click(function(){
-        $('.team-creation-page').show();
-        $('.menu-page').hide();
-        socket.emit('initialize')
+        socket.emit('quickplay', {username: username})
+        // $('.team-creation-page').show();
+        // $('.menu-page').hide();
+        // socket.emit('initialize')
         // socket.emit('create team')
     })
 });
