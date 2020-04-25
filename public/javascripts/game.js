@@ -9,6 +9,9 @@ function startGame(){
     var playerUnits = [];
     var enemyUnits = [];
 
+    var startTurn = 0, endTurn = 0;
+    var clicks = 0;
+
     // $('.game-page').ready(function(){
     Crafty.init(1400, $(window).height());
     Crafty.sprite(128,96,"/images/tilemaps/raised/selected-floor.png",{selected_floor:[0,0]});
@@ -555,6 +558,7 @@ function startGame(){
             // playerUnits[data.index].hp = playerUnits[data.index].hp - data.dmg
             playerUnits[data.index].hp = 0
             if(playerUnits[data.index].hp == 0){
+                socket.emit('death confirmed');
                 playerUnits[data.index].destroy()
             }
             endGame()
@@ -563,6 +567,7 @@ function startGame(){
 
         socket.on('start turn', ()=>{
             turn = true;
+            startTurn = new Date();
             console.log('your turn')
         })
 
@@ -687,6 +692,7 @@ function startGame(){
             .unselectable();
     
         $('#button1').click(function(){
+            clicks++;
             if(!actionTaken){
                 console.log('action1 clicked');
                 actionClicked = unitClicked.actions[0];
@@ -696,6 +702,7 @@ function startGame(){
         })
     
         $('#button2').click(function(){
+            clicks++;
             if(!actionTaken){
                 console.log('action1 clicked');
                 actionClicked = unitClicked.actions[1];
@@ -704,6 +711,7 @@ function startGame(){
         })
     
         $('#button3').click(function(){
+            clicks++;
             if(!actionTaken){
                 console.log('action1 clicked');
                 actionClicked = unitClicked.actions[2];
@@ -712,6 +720,7 @@ function startGame(){
         })
     
         $('#button4').click(function(){
+            clicks++;
             if(!actionTaken){
                 console.log('action1 clicked');
                 actionClicked = unitClicked.actions[3];
@@ -720,6 +729,7 @@ function startGame(){
         })
     
         $('#button5').click(function(){
+            clicks++;
             if(!moved){
                 console.log('move clicked');
                 actionClicked = 'move';
@@ -728,6 +738,7 @@ function startGame(){
         })
     
         $('#button6').click(function(){
+            clicks++;
             console.log('end turn clicked');
             Crafty.trigger('button-1', "")
             Crafty.trigger('button-2', "")
@@ -740,7 +751,9 @@ function startGame(){
             actionTaken = false
             turn = false;
             moved = false;
-            socket.emit('end turn', {room: room});
+            endTurn = new Date();
+            socket.emit('end turn', {room: room, turn_time: (endTurn-startTurn)/1000, clicks: clicks});
+            startTurn = 0; endTurn = 0; clicks = 0;
             
         })
     });

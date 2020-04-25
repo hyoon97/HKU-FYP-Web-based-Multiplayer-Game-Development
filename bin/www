@@ -216,8 +216,21 @@ io.on('connection', function(socket){
         socket.to(data.room).emit('get damage', data);
     })
 
+    socket.on('death confirmed', () => {
+        var clients = io.sockets.adapter.rooms[`room${socket.roomID}`].sockets;
+        for (var clientID in clients) {
+            if (clientID == socket.id)
+                io.sockets.connected[clientId].stats.deaths += 1;
+            else
+                io.sockets.connected[clientId].stats.kills +=1;
+        } 
+    })
+
     socket.on('end turn', (data) => {
         socket.stats.turns += 1;
+        socket.stats.avg_turn_time = (socket.stats.avg_turn_time * (socket.stats.turns - 1) + data.turn_time) / socket.stats.turns;
+        socket.stats.clicks += data.clicks;
+        socket.stats.clicks_avg = socket.stats.clicks / socket.stats.turns;
         socket.to(data.room).emit('start turn');
     })
 
@@ -273,8 +286,8 @@ mms.on('match', (result) => {
     //     color: socket.playerColor,
     //     room: socket.roomID 
     // };
-    socket_1.join(`room-${++rooms}`);
-    socket_2.join(`room-${rooms}`);
+    socket_1.join(socket_1.roomID);
+    socket_2.join(socket_2.roomID);
     socket_1.emit('initialize player', {id: 0, color: socket_1.playerColor, room: socket_1.roomID});
     socket_2.emit('initialize player', {id: 1, color: socket_2.playerColor, room: socket_2.roomID});
     // socket.broadcast.to(rooms).emit('foundGame', {});
