@@ -62,6 +62,7 @@ let rooms = 0;
 
 // associate player with socket
 var userToSocket = new Map;
+var socketToUser = new Map;
 
 require('socketio-auth')(io, {
     authenticate: async (socket, data, callback) => {
@@ -131,7 +132,7 @@ require('socketio-auth')(io, {
 });
 
 io.on('connection', function(socket){
-    socket.on('initialize', ()=>{
+    socket.on('initialize', ()=>{ //currently not doing anything
         // socket.playerColor = playerColor();
         // socket.roomID = roomID();
         // socket.units = [];
@@ -169,6 +170,7 @@ io.on('connection', function(socket){
             }
             
             userToSocket.set(user, socket);
+            socketToUser.set(socket, user);
             mms.push(user);
 
         } catch (e) {
@@ -215,10 +217,23 @@ io.on('connection', function(socket){
     })
 
     socket.on('end turn', (data) => {
+        socket.stats.turns += 1;
         socket.to(data.room).emit('start turn');
     })
 
     socket.on('surrender', (data)=>{
+        var socket_winner, socket_loser;
+
+        var clients = io.sockets.adapter.rooms[`room${socket.roomID}`].sockets;
+        for (var clientID in clients) {
+            if (clientID == socket.id)
+                socket_winner = io.sockets.connected[clientId];
+            else
+                socket_loser = io.sockets.connected[clientId]
+        }   
+
+        mms.mmrCalculator(socketToUser(socket_winner), socketToUser(socket_loser), socket_winner.stats, socket_loser.stats);
+
         socket.to(data.room).emit('victory');
     })
 
@@ -236,10 +251,23 @@ mms.on('match', (result) => {
 
     socket_1.playerColor = "red";
     socket_2.playerColor = "blue";
-    socket_1.roomID = rooms;
-    socket_2.roomID = rooms;
+    socket_1.roomID = "room"+rooms;
+    socket_2.roomID = "room"+rooms;
     socket_1.units = [];
     socket_2.units = [];
+    rooms++;
+
+    var stats = {
+        kills: 0,
+        deaths: 0,
+        kd_ratio: 0,
+        turns: 0,
+        avg_turn_time: 0,
+        clicks: 0,
+        clicks_avg: 0
+    }
+    socket_1.stats = stats;
+    socket_2.stats = stats;
     // var player = {
     //     id: playerID % 2,
     //     color: socket.playerColor,

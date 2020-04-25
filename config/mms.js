@@ -6,7 +6,7 @@ var mmrCalculator = (winner, loser, w_stats, l_stats) => {
     var mmrchange = params.MMRCHANGE_DEFAULT;
     
     // Account for k/d ratio (of loser)
-    mmrchange -= Math.round(l_stats.kd_ratio * params.kd_ratio);
+    mmrchange -= Math.round(l_stats.kills / 4 * params.kd_ratio);
 
     // Account for total turns
     var logbase_turns = 1 / Math.log(params.turns_max);
