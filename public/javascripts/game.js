@@ -543,7 +543,7 @@ function startGame(){
                 turn = true;
             }
             room = data.player.room
-
+            Crafty.trigger('update turn', turn)
             placeUnits(data.units, data.player);
         });
 
@@ -568,6 +568,7 @@ function startGame(){
         socket.on('start turn', ()=>{
             turn = true;
             startTurn = new Date();
+            Crafty.trigger('update turn', turn)
             console.log('your turn')
         })
 
@@ -586,6 +587,20 @@ function startGame(){
             xResponse: 0, yResponse:0, scaleResponse:0, z: 50
         });   
     
+        var turn_text_1 = Crafty.e("2D, UI, DOM, Text")
+            .attr({x: 10, y: $(window).height()-250, w: 700})
+            .textColor('rgb(0,145,255)')
+            .textFont({size: '50px', family:'Arial'})
+            .text("")
+            .bind("update turn", function(action) {
+                if(turn){
+                    this.text("It is your turn");
+                }
+                else{
+                    this.text("It is opponent's turn");
+                }
+            })
+
         var skill_set = Crafty.e('2D, UI, HTML')
             .attr({x: 250, y: $(window).height()-150})
             .append("<img class='action-set' src='/images/ui/game-skill-set.png' style='height: 150px;' />")
@@ -738,23 +753,25 @@ function startGame(){
         })
     
         $('#button6').click(function(){
-            clicks++;
-            console.log('end turn clicked');
-            Crafty.trigger('button-1', "")
-            Crafty.trigger('button-2', "")
-            Crafty.trigger('button-3', "")
-            Crafty.trigger('button-4', "")
-            Crafty.trigger('button-5', "")
-            Crafty.trigger('button-6', "")
-            unitClicked = null;
-            actionClicked = null;
-            actionTaken = false
-            turn = false;
-            moved = false;
-            endTurn = new Date();
-            socket.emit('end turn', {room: room, turn_time: (endTurn-startTurn)/1000, clicks: clicks});
-            startTurn = 0; endTurn = 0; clicks = 0;
-            
+            if(!unitClicked){
+                clicks++;
+                console.log('end turn clicked');
+                Crafty.trigger('button-1', "")
+                Crafty.trigger('button-2', "")
+                Crafty.trigger('button-3', "")
+                Crafty.trigger('button-4', "")
+                Crafty.trigger('button-5', "")
+                Crafty.trigger('button-6', "")
+                unitClicked = null;
+                actionClicked = null;
+                actionTaken = false
+                turn = false;
+                moved = false;
+                endTurn = new Date();
+                Crafty.trigger('update turn', turn)
+                socket.emit('end turn', {room: room, turn_time: (endTurn-startTurn)/1000, clicks: clicks});
+                startTurn = 0; endTurn = 0; clicks = 0;
+            }
         })
     });
     
