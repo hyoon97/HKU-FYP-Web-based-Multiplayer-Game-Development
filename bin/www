@@ -60,9 +60,9 @@ var roomID = function(){
 
 let rooms = 0;
 
-// associate player with socket
 var userToSocket = new Map;
 var socketToUser = new Map;
+var roomToSockets = new Map;
 
 require('socketio-auth')(io, {
     authenticate: async (socket, data, callback) => {
@@ -217,12 +217,15 @@ io.on('connection', function(socket){
     })
 
     socket.on('death confirmed', () => {
-        var clients = io.sockets.adapter.rooms[`room${socket.roomID}`].sockets;
-        for (var clientID in clients) {
-            if (clientID == socket.id)
-                io.sockets.connected[clientId].stats.deaths += 1;
+        var clients = roomToSockets.get(socket.roomID);
+        // console.log(clients);
+        for (var i=0; i<clients.length; i++) {
+            var client = clients[i];
+            // console.log(client);
+            if (client.id == socket.id)
+                client.stats.deaths += 1;
             else
-                io.sockets.connected[clientId].stats.kills +=1;
+                client.stats.kills +=1;
         } 
     })
 
@@ -237,17 +240,19 @@ io.on('connection', function(socket){
     socket.on('surrender', (data)=>{
         var socket_winner, socket_loser;
 
-        var clients = io.sockets.adapter.rooms[`room${socket.roomID}`].sockets;
-        for (var clientID in clients) {
-            if (clientID == socket.id)
-                socket_winner = io.sockets.connected[clientId];
+        var clients = roomToSockets.get(socket.roomID)
+        for (var i=0; i<clients.length; i++) {
+            var client = clients[i];
+            if (client.id == socket.id)
+                socket_winner = client;
             else
-                socket_loser = io.sockets.connected[clientId]
+                socket_loser = client;
         }   
 
         mms.mmrCalculator(socketToUser(socket_winner), socketToUser(socket_loser), socket_winner.stats, socket_loser.stats);
 
         socket.to(data.room).emit('victory');
+
     })
 
     socket.on('disconnect', function(){
@@ -288,6 +293,7 @@ mms.on('match', (result) => {
     // };
     socket_1.join(socket_1.roomID);
     socket_2.join(socket_2.roomID);
+    roomToSockets.set(socket_1.roomID, [socket_1, socket_2]);
     socket_1.emit('initialize player', {id: 0, color: socket_1.playerColor, room: socket_1.roomID});
     socket_2.emit('initialize player', {id: 1, color: socket_2.playerColor, room: socket_2.roomID});
     // socket.broadcast.to(rooms).emit('foundGame', {});
