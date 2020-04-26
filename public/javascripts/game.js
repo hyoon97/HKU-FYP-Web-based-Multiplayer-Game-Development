@@ -769,7 +769,7 @@ function startGame(){
                 moved = false;
                 endTurn = new Date();
                 Crafty.trigger('update turn', turn)
-                socket.emit('end turn', {room: room, turn_time: (endTurn-startTurn)/1000, clicks: clicks});
+                socket.emit('end turn', {room: room, turn_time: (endTurn.getTime()-startTurn.getTime())/1000, clicks: clicks});
                 startTurn = 0; endTurn = 0; clicks = 0;
             }
         })
