@@ -213,6 +213,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('give damage', function(data){
+        socket.stats.dmg_dealt += data.damage;
         socket.to(data.room).emit('get damage', data);
     })
 
@@ -279,10 +280,11 @@ mms.on('match', (result) => {
         kills: 0,
         deaths: 0,
         kd_ratio: 0,
+        dmg_dealt: 0,
         turns: 0,
         avg_turn_time: 0,
         clicks: 0,
-        clicks_avg: 0
+        clicks_avg: 0,
     }
     socket_1.stats = stats;
     socket_2.stats = stats;

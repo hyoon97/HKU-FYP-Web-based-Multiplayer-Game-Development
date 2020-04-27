@@ -12,6 +12,9 @@ module.exports = {
 
     kd_ratio: 20, // importance of k/d ratio
 
+    dmg_dealt_max: 300, // the cap to damage dealt, also the base of log operation
+    dmg_dealt_coeff: 20, //  importance of damage dealt
+
     turns_max: 100, // the cap to turns, also the base of log operation
     turns_coeff: 20, // importance of turns
 
