@@ -567,7 +567,7 @@ function startGame(){
 
         socket.on('start turn', ()=>{
             turn = true;
-            startTurn = new Date();
+            startTurn = performance.now();
             Crafty.trigger('update turn', turn)
             console.log('your turn')
         })
@@ -753,7 +753,7 @@ function startGame(){
         })
     
         $('#button6').click(function(){
-            if(!unitClicked){
+            if(unitClicked){
                 clicks++;
                 console.log('end turn clicked');
                 Crafty.trigger('button-1', "")
@@ -767,9 +767,9 @@ function startGame(){
                 actionTaken = false
                 turn = false;
                 moved = false;
-                endTurn = new Date();
+                endTurn = performance.now();
                 Crafty.trigger('update turn', turn)
-                socket.emit('end turn', {room: room, turn_time: (endTurn.getTime()-startTurn.getTime())/1000, clicks: clicks});
+                socket.emit('end turn', {room: room, turn_time: (endTurn-startTurn)/1000, clicks: clicks});
                 startTurn = 0; endTurn = 0; clicks = 0;
             }
         })

@@ -263,6 +263,9 @@ io.on('connection', function(socket){
 
         socket.to(data.room).emit('victory');
 
+        socket_winner.leave(socket_winner.roomID);
+        socket_loser.leave(socket_loser.roomID);
+
     })
 
     socket.on('disconnect', function(){
