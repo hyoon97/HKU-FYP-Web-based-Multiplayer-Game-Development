@@ -248,9 +248,18 @@ io.on('connection', function(socket){
                 socket_winner = client;
             else
                 socket_loser = client;
-        }   
+        }
+        
+        var winner = socketToUser(socket_winner);
+        var loser = socketToUser(socket_loser);
 
-        mms.mmrCalculator(socketToUser(socket_winner), socketToUser(socket_loser), socket_winner.stats, socket_loser.stats);
+        winner.playedGames++;
+        loser.playedGames++;
+
+        mms.mmrCalculator(winner, loser, socket_winner.stats, socket_loser.stats);
+
+        winner.update();
+        loser.update();
 
         socket.to(data.room).emit('victory');
 
