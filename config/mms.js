@@ -1,5 +1,5 @@
-var matchmaker = require('matchmaker');
-var mms = new matchmaker;
+var MatchMaker = require('matchmaker');
+var matchmaker = new MatchMaker;
 var params = require('./mmsparam');
 
 var mmrCalculator = (winner, loser, w_stats, l_stats) => {
@@ -46,10 +46,13 @@ var mmrCalculator = (winner, loser, w_stats, l_stats) => {
     loser.mmr -= mmrchange;
 }
 
-mms.policy = (a, b) => { //detemines if two players a and b should be matched together
+matchmaker.policy = (a, b) => { //detemines if two players a and b should be matched together
     if (Math.abs(a.mmr-b.mmr) < params.POLICY_MMR_DIFF) 
         return 100;
     else return 0;
 }
 
-module.exports = mms;
+module.exports = {
+    matchmaker: matchmaker,
+    mmrCalc: mmrCalculator
+};

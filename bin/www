@@ -10,7 +10,7 @@ var http = require('http');
 
 
 var mms = require('../config/mms')
-mms.start();
+mms.matchmaker.start();
 
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
@@ -171,7 +171,7 @@ io.on('connection', function(socket){
             
             userToSocket.set(user, socket);
             socketToUser.set(socket, user);
-            mms.push(user);
+            mms.matchmaker.push(user);
 
         } catch (e) {
 
@@ -250,13 +250,13 @@ io.on('connection', function(socket){
                 socket_loser = client;
         }
         
-        var winner = socketToUser(socket_winner);
-        var loser = socketToUser(socket_loser);
+        var winner = socketToUser.get(socket_winner);
+        var loser = socketToUser.get(socket_loser);
 
         winner.playedGames++;
         loser.playedGames++;
 
-        mms.mmrCalculator(winner, loser, socket_winner.stats, socket_loser.stats);
+        mms.mmrCalc(winner, loser, socket_winner.stats, socket_loser.stats);
 
         winner.update();
         loser.update();
@@ -275,7 +275,7 @@ io.on('connection', function(socket){
 
 // Upon finding a pair of players to match, connect them to a room
 // might need to relocate
-mms.on('match', (result) => {
+mms.matchmaker.on('match', (result) => {
     // put the two players together in a game
     var socket_1 = userToSocket.get(result.a);
     var socket_2 = userToSocket.get(result.b);
