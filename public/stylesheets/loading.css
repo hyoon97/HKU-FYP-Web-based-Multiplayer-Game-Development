@@ -1,0 +1,31 @@
+.loading-page {
+    width: 100%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.loading-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#story-frame {
+    width: 100%;
+}
+
+.loading-container .background-story{
+    position: absolute;
+    left: 50%;
+    top: 54%;
+    font-size:20px;
+    z-index: 999;
+    border-radius: 25px;
+    background: white;
+    padding: 20px; 
+    width: 50%;
+    height: 50%;  
+    transform: translate(-50%, -50%);
+}

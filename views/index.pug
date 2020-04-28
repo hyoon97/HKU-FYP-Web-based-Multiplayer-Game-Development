@@ -5,6 +5,7 @@ html
         title= title
         link(rel='stylesheet', type='text/css', href='/stylesheets/menu.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/team-creation.css')
+        link(rel='stylesheet', type='text/css', href='/stylesheets/loading.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/game-testing.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/registration.css')
         link(rel='stylesheet', type='text/css', href='/stylesheets/login.css')
@@ -160,6 +161,11 @@ html
                         p(class='role-description')
                     div(class="wrap-action-description validate-input")
                         p(class='action-description')
+
+            div(class='loading-page')
+                div(class='loading-container')
+                    img(id='story-frame' src='/images/ui/story-frame.png' alt='')
+                    p(class='background-story')
 
             div(class='game-page')
                 div(class='game')

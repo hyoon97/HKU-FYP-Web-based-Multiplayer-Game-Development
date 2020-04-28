@@ -268,11 +268,24 @@ var socketAuthenticated = (socket) => {
         console.log(data.team)
         socket.emit('set unit', {team: data.team, id: data.id, room: player.room})
         if(ready === 2){
-            
             $('.team-creation-page').hide()
-            $('.game-page').show()
-            startGame();
-            socket.emit('start game', player);
+            $('.loading-page').show()
+            if(player.id == 0){
+                $('.background-story').text('Your team is a group of bandits hiding in the cave. Your team was planning to pillage a small town. Suddenly, a group or noble warriors entered your cave. To save your team, fight those warriors!')
+            }
+            if(player.id == 1){
+                $('.background-story').text('Your team is a group of noble warriors from a kingdom. The King ordered you to go on a quest to anhilate the bandits and bring piece to people. Your team reached cave and found bandits inside it. Now the glorious battle begins!')
+            }
+            var interval = 15 * 1000;
+                setTimeout(function() {
+                $('.loading-page').hide()
+                startGame();
+                $('.game-page').show()
+                socket.emit('start game', player);
+            }, interval);
+            // $('.game-page').show()
+            // startGame();
+            // socket.emit('start game', player);
         }
     });
     
@@ -409,9 +422,23 @@ $(document).ready(function(){
             socket.emit('ready', {team: team, id: player.id, room:player.room});
             if(ready === 2){
                 $('.team-creation-page').hide()
-                startGame();
-                $('.game-page').show()
-                socket.emit('start game', player);
+                $('.loading-page').show()
+                if(player.id == 0){
+                    $('.background-story').text('Your team is a group of bandits hiding in the cave. Your team was planning to pillage a small town. Suddenly, a group or noble warriors entered your cave. To save your team, fight those warriors!')
+                }
+                if(player.id == 1){
+                    $('.background-story').text('Your team is a group of noble warriors from a kingdom. The King ordered you to go on a quest to anhilate the bandits and bring piece to people. Your team reached cave and found bandits inside it. Now the glorious battle begins!')
+                }
+                var interval = 15 * 1000;
+                    setTimeout(function() {
+                    $('.loading-page').hide()
+                    startGame();
+                    $('.game-page').show()
+                    socket.emit('start game', player);
+                }, interval);
+                // startGame();
+                // $('.game-page').show()
+                // socket.emit('start game', player);
             }
         }
         else{
