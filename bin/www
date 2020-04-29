@@ -213,7 +213,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('give damage', function(data){
-        socket.stats.dmg_dealt += data.damage;
+        socket.stats.dmg_dealt += data.dmg;
         socket.to(data.room).emit('get damage', data);
     })
 
