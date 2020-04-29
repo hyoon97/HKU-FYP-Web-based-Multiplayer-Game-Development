@@ -241,9 +241,11 @@ io.on('connection', function(socket){
     socket.on('surrender', (data)=>{
         var socket_winner, socket_loser;
 
-        var clients = roomToSockets.get(socket.roomID)
+        var clients = roomToSockets.get(socket.roomID);
+        // console.log(clients);
         for (var i=0; i<clients.length; i++) {
             var client = clients[i];
+            // console.log(client);
             if (client.id == socket.id)
                 socket_winner = client;
             else
@@ -256,10 +258,16 @@ io.on('connection', function(socket){
         winner.playedGames++;
         loser.playedGames++;
 
+        // console.log(socket_winner.stats);
+        // console.log(socket_loser.stats);
+
         mms.mmrCalc(winner, loser, socket_winner.stats, socket_loser.stats);
 
-        winner.update();
-        loser.update();
+        console.log(winner.mmr);
+        console.log(loser.mmr);
+
+        winner.save();
+        loser.save();
 
         socket.to(data.room).emit('victory');
 
@@ -288,7 +296,7 @@ mms.matchmaker.on('match', (result) => {
     socket_2.units = [];
     rooms++;
 
-    var stats = {
+    socket_1.stats = {
         kills: 0,
         deaths: 0,
         kd_ratio: 0,
@@ -297,9 +305,17 @@ mms.matchmaker.on('match', (result) => {
         avg_turn_time: 0,
         clicks: 0,
         clicks_avg: 0,
-    }
-    socket_1.stats = stats;
-    socket_2.stats = stats;
+    };
+    socket_2.stats = {
+        kills: 0,
+        deaths: 0,
+        kd_ratio: 0,
+        dmg_dealt: 0,
+        turns: 0,
+        avg_turn_time: 0,
+        clicks: 0,
+        clicks_avg: 0,
+    };
     // var player = {
     //     id: playerID % 2,
     //     color: socket.playerColor,
