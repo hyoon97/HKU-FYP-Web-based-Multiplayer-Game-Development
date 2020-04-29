@@ -314,7 +314,7 @@ $(document).ready(function(){
             });
 
             socket.on('unauthorized', (err) => {
-
+                alert("There was an error with the authentication:", err.message);
             });
         });
 

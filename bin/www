@@ -88,6 +88,12 @@ require('socketio-auth')(io, {
                 if (user)
                     return callback(new Error('A user with this email has already been registered'));
 
+                user = await User.findOne({
+                    username
+                });
+                if (user)
+                    return callback(new Error('A user with this username has already been registered'));
+
                 user = new User({
                     username,
                     email,
