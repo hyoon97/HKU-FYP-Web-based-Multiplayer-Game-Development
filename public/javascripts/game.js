@@ -631,6 +631,11 @@ function startGame(){
             location.reload();
         })
 
+        socket.on('message from another player', function(data){
+            $('.chat-log').append(data.msg)
+            console.log(data.msg)
+        })
+
         Crafty.createLayer("UI", "DOM", {
             xResponse: 0, yResponse:0, scaleResponse:0, z: 50
         });   
@@ -754,6 +759,36 @@ function startGame(){
             .css({'pointer-events': 'none'})
             .unselectable();
     
+        var chat = Crafty.e('2D, UI, HTML')
+            .attr({x: 850, y: $(window).height()-260})
+            .append("<img src='/images/ui/chat-frame.png' class='chat-frame' id='chat-frame' style='height: 250px; width: 500px' />")
+
+        var chat_log = Crafty.e('2D, UI, HTML')
+            .attr({x: 915, y: $(window).height()-240})
+            .append("<p style='width:380px; height: 170px; resize: none; border: none; overflow: auto' class='chat-log'></p>")
+
+        var text_field = Crafty.e('2D, UI, HTML')
+            .attr({x: 932, y: $(window).height()-40})
+            .append("<textarea style='width:330px; height: 20px; resize: none; border: none; background-color: transparent; color: rgb(0,145,255)' class='text-area' placeholder='Type message..' name='msg'></textarea>")
+
+        $(".text-area").keyup(function(event) {
+            if (event.keyCode === 13) {
+                if ($.trim($(".text-area").val()) != "") {
+                    msg = $(".text-area").val();
+                    if(color == 'blue'){
+                        msg = "<span style='color: rgb(0,145,255)'>" + msg + "</span> <br/>";
+                    }
+                    else{
+                        msg = "<span style='color: red'>" + msg + "</span> <br/>";
+                    }
+                    $('.chat-log').append(msg)
+                    console.log(msg)
+                    $(".text-area").val('')
+                    socket.emit('send message', {room: room, msg: msg})
+                }
+            }
+        });
+
         $('#button1').click(function(){
             clicks++;
             if(!actionTaken){
