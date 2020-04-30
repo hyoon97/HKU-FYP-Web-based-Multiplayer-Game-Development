@@ -179,19 +179,67 @@ function startGame(){
                                 this.addComponent('selected_floor');
                                 this.removeComponent('floor')
                             }
+                            if(unitClicked){
+                                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                                if(actionClicked){
+                                    if(actionClicked != 'move'){
+                                        if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
+                                            this.addComponent('floor');
+                                            this.removeComponent('selected_floor')
+                                        }
+                                    }
+                                    else{
+                                        if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.move){
+                                            this.addComponent('floor');
+                                            this.removeComponent('selected_floor')
+                                        }
+                                    }
+                                }
+                                
+                            }
                         })
                         .bind('MouseOut', function(){
                             if(!unitClicked){
                                 this.addComponent('floor');
                                 this.removeComponent('selected_floor')
                             }
+                            if(unitClicked){
+                                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                                if(actionClicked){
+                                    if(actionClicked != 'move'){
+                                        if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
+                                            this.addComponent('selected_floor');
+                                            this.removeComponent('floor')
+                                        }
+                                    }
+                                    else{
+                                        if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.move){
+                                            this.addComponent('selected_floor');
+                                            this.removeComponent('floor')
+                                        }
+                                    }
+                                }
+                            }
                         })
                         .bind("Click", function() { 
                             if(unitClicked){
+                                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                                 for(i=0; i<4; i++){
                                     if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                        if(actionClicked){
+                                            if(actionClicked == 'move'){
+                                                Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
+                                            }
+                                            else{
+                                                Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
+                                            }
+                                        }
                                         Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
                                         unitClicked = playerUnits[i];
+                                        actionClicked = null
                                         this.addComponent('selected_floor');
                                         this.removeComponent('floor');
                                     }
@@ -209,8 +257,6 @@ function startGame(){
                                         }
                                     }
                                     if (valid){
-                                        var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
-                                        var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                                         if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.move){
                                             Crafty.trigger('HideRange', {x:x, y:y, range: unitClicked.move})
                                             moveUnit(this);
@@ -225,7 +271,9 @@ function startGame(){
                                                 console.log('give dmg')
                                                 // enemyUnits[i].hp = enemyUnits[i].hp - actionClicked.damage
                                                 enemyUnits[i].hp = 0
-                                                enemyUnits[i].destroy()
+                                                if(enemyUnits[i].hp == 0){
+                                                    enemyUnits[i].destroy()
+                                                }
                                                 console.log(enemyUnits)
                                                 socket.emit('give damage', {room: room, dmg: actionClicked.damage, index: i});
                                                 actionTaken = true;
@@ -710,8 +758,19 @@ function startGame(){
             clicks++;
             if(!actionTaken){
                 console.log('action1 clicked');
+                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                if(actionClicked){
+                    if(actionClicked != 'move'){
+                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range});
+                    }
+                    else{
+                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move});
+                    }
+                }
                 actionClicked = unitClicked.actions[0];
                 console.log(actionClicked);
+                Crafty.trigger('ShowRange', {x: x, y: y, range: actionClicked.range});
             }
     
         })
@@ -719,27 +778,60 @@ function startGame(){
         $('#button2').click(function(){
             clicks++;
             if(!actionTaken){
-                console.log('action1 clicked');
+                console.log('action2 clicked');
+                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                if(actionClicked){
+                    if(actionClicked != 'move'){
+                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range});
+                    }
+                    else{
+                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move});
+                    }
+                }
                 actionClicked = unitClicked.actions[1];
                 console.log(actionClicked);
+                Crafty.trigger('ShowRange', {x: x, y: y, range: actionClicked.range});
             }
         })
     
         $('#button3').click(function(){
             clicks++;
             if(!actionTaken){
-                console.log('action1 clicked');
+                console.log('action3 clicked');
+                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                if(actionClicked){
+                    if(actionClicked != 'move'){
+                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range});
+                    }
+                    else{
+                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move});
+                    }
+                }
                 actionClicked = unitClicked.actions[2];
                 console.log(actionClicked);
+                Crafty.trigger('ShowRange', {x: x, y: y, range: actionClicked.range});
             }
         })
     
         $('#button4').click(function(){
             clicks++;
             if(!actionTaken){
-                console.log('action1 clicked');
+                console.log('action4 clicked');
+                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                if(actionClicked){
+                    if(actionClicked != 'move'){
+                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range});
+                    }
+                    else{
+                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move});
+                    }
+                }
                 actionClicked = unitClicked.actions[3];
                 console.log(actionClicked);
+                Crafty.trigger('ShowRange', {x: x, y: y, range: actionClicked.range});
             }
         })
     
@@ -747,7 +839,18 @@ function startGame(){
             clicks++;
             if(!moved){
                 console.log('move clicked');
+                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                if(actionClicked){
+                    if(actionClicked != 'move'){
+                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range});
+                    }
+                    else{
+                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move});
+                    }
+                }
                 actionClicked = 'move';
+                Crafty.trigger('ShowRange', {x: x, y: y, range: unitClicked.move});
                 console.log(actionClicked);
             }
         })
@@ -762,6 +865,16 @@ function startGame(){
                 Crafty.trigger('button-4', "")
                 Crafty.trigger('button-5', "")
                 Crafty.trigger('button-6', "")
+                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                if(actionClicked){
+                    if(actionClicked != 'move'){
+                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range});
+                    }
+                    else{
+                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move});
+                    }
+                }
                 unitClicked = null;
                 actionClicked = null;
                 actionTaken = false
