@@ -5,7 +5,9 @@ function startGame(){
     var moved = false
     var actionTaken = false
     var turn = false;
+    var msg;
     var room;
+    var color;
     var playerUnits = [];
     var enemyUnits = [];
 
