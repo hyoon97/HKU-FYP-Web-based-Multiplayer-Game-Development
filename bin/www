@@ -73,26 +73,26 @@ require('socketio-auth')(io, {
             var email = data.email;
 
             if (username === "")
-                return callback(new Error('Username field must be filled'));
+                return callback(new Error("Username field must be filled"));
             if (password.length < 8)
-                return callback(new Error('Password must be at least 8 characters'));
+                return callback(new Error("Password must be at least 8 characters"));
             if (password != confirm)
-                return callback(new Error('Two password inputs do not match'));
+                return callback(new Error("Two password inputs do not match"));
             if (isemail.validate(email, {errorLevel: true}) > 0)
-                return callback(new Error('Invalid email'));
+                return callback(new Error("Invalid email"));
 
             try {
                 let user = await User.findOne({
                     email
                 });
                 if (user)
-                    return callback(new Error('A user with this email has already been registered'));
+                    return callback(new Error("A user with this email has already been registered"));
 
                 user = await User.findOne({
                     username
                 });
                 if (user)
-                    return callback(new Error('A user with this username has already been registered'));
+                    return callback(new Error("A user with this username has already been registered"));
 
                 user = new User({
                     username,

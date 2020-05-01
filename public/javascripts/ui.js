@@ -305,7 +305,6 @@ $(document).ready(function(){
 
         socket = io.connect('http://localhost:3000');
         socket.on('connect', () => {
-            socket.emit('authentication', {newUserReg: false, username: username, password: password, confirm: "", email: ""});
 
             socket.on('authenticated', () => { //user authenticated, can do other things
                 $('.menu-page').show();
@@ -316,6 +315,8 @@ $(document).ready(function(){
             socket.on('unauthorized', (err) => {
                 alert("There was an error with the authentication:", err.message);
             });
+
+            socket.emit('authentication', {newUserReg: false, username: username, password: password, confirm: "", email: ""});
         });
 
         return false;
