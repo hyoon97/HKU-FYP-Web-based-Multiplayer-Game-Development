@@ -535,6 +535,7 @@ function startGame(){
                 var componentList = "2D, DOM, " + units[i].playerColor + "_" + units[i].role;
                 var unit = Crafty.e(componentList);
                 unit.origin('center')
+                color = player.color
                 unit.index = i;
                 unit.controllable = controllable;
                 unit.x = units[i].xPosition
