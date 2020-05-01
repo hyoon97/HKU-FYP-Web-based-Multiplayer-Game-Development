@@ -65,7 +65,7 @@ var socketToUser = new Map;
 var roomToSockets = new Map;
 
 require('socketio-auth')(io, {
-    authenticate: async (socket, data, callback) => {
+    authenticate: async (socket, data, callback) => { //authentication handling
         if (data.newUserReg === true) { // if new user wants to register
             var username = data.username;
             var password = data.password;
@@ -133,7 +133,16 @@ require('socketio-auth')(io, {
                 console.error(e);
             }
         }
+    },
+    disconnect: (socket) => {
+        console.log("socket disconnected: ", socket.id);
+        socket.to(socket.roomID).emit('user disconnected'); 
 
+        userToSocket.delete(socketToUser.get(socket));
+        socketToUser.delete(socket);
+        if (socket.roomID) {
+            socket.leave(socket.roomID);
+        }
     }
 });
 
@@ -289,15 +298,15 @@ io.on('connection', function(socket){
         socket.to(data.room).emit('message from another player', {msg: data.msg})
     })
 
-    socket.on('disconnect', function(){
-        socket.to(socket.roomID).emit('user disconnected'); 
+    // socket.on('disconnect', function(){
+    //     socket.to(socket.roomID).emit('user disconnected'); 
 
-        userToSocket.delete(socketToUser.get(socket));
-        socketToUser.delete(socket);
-        if (socket.roomID) {
-            socket.leave(socket.roomID);
-        }
-    });
+    //     userToSocket.delete(socketToUser.get(socket));
+    //     socketToUser.delete(socket);
+    //     if (socket.roomID) {
+    //         socket.leave(socket.roomID);
+    //     }
+    // });
 });
 
 // Upon finding a pair of players to match, connect them to a room
