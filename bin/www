@@ -282,6 +282,10 @@ io.on('connection', function(socket){
 
     })
 
+    socket.on('send message', (data)=>{
+        socket.to(data.room).emit('message from another player', {msg: data.msg})
+    })
+
     socket.on('disconnect', function(){
         socket.to(socket.roomID).emit('user disconnected'); 
     });
