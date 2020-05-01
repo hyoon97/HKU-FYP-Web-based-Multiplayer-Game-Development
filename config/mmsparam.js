@@ -7,7 +7,7 @@ module.exports = {
     MMRCHANGE_DEFAULT: 100,
 
     // Min change to MMR after accounting for performance
-    MRMCHANGE_MIN: 20,
+    MMRCHANGE_MIN: 20,
 
     // MMR difference for mms.policy
     // two players of MMR difference less than this will be considered to be paired
