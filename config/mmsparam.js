@@ -10,7 +10,7 @@ module.exports = {
     // two players of MMR difference less than this will be considered to be paired
     POLICY_MMR_DIFF: 100,
 
-    kd_ratio: 20, // importance of k/d ratio
+    kd_coeff: 30, // importance of k/d ratio
 
     dmg_dealt_max: 300, // the cap to damage dealt, also the base of log operation
     dmg_dealt_coeff: 10, //  importance of damage dealt

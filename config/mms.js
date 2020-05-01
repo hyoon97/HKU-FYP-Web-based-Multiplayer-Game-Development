@@ -6,7 +6,7 @@ var mmrCalculator = (winner, loser, w_stats, l_stats) => {
     var mmrchange = params.MMRCHANGE_DEFAULT;
     
     // Account for k/d ratio (of loser)
-    mmrchange -= Math.round(l_stats.kills / 4 * params.kd_ratio);
+    mmrchange -= Math.round(l_stats.kills / 4 * params.kd_coeff);
 
     // Account for difference in total damage dealt
     var logbase_dmgdealt = 1 / Math.log(params.dmg_dealt_max);
