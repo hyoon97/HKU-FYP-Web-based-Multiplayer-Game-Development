@@ -280,6 +280,9 @@ io.on('connection', function(socket){
         socket_winner.leave(socket_winner.roomID);
         socket_loser.leave(socket_loser.roomID);
 
+        socket_winner.roomID = "";
+        socket_loser.roomID = "";
+
     })
 
     socket.on('send message', (data)=>{
@@ -288,6 +291,12 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         socket.to(socket.roomID).emit('user disconnected'); 
+
+        userToSocket.delete(socketToUser.get(socket));
+        socketToUser.delete(socket);
+        if (socket.roomID) {
+            socket.leave(socket.roomID);
+        }
     });
 });
 
@@ -297,6 +306,16 @@ mms.matchmaker.on('match', (result) => {
     // put the two players together in a game
     var socket_1 = userToSocket.get(result.a);
     var socket_2 = userToSocket.get(result.b);
+    if (socket_1 == undefined) {
+        if (socket_2 != undefined) {
+            mms.push(result.b);
+        }
+        return;
+    }
+    else if (socket_2 == undefined) {
+        mms.push(result.a);
+        return;
+    }
 
     socket_1.playerColor = "red";
     socket_2.playerColor = "blue";

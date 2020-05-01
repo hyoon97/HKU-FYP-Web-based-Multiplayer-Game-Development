@@ -371,6 +371,15 @@ $(document).ready(function(){
     })
 });
 
+$(document).ready(function() {
+    $('.logout-button').click(function() {
+        socket.disconnect(true);
+        username = "";
+        $('.login-page').show();
+        $('.menu-page').hide();
+    })
+})
+
 $(document).ready(function(){
     $('#add-character1').click(function(){
         slot = 0;
