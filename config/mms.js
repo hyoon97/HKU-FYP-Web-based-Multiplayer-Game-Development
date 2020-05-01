@@ -41,7 +41,7 @@ var mmrCalculator = (winner, loser, w_stats, l_stats) => {
     else if (w_stats.clicks_avg>0 && l_stats.clicks_avg>0)
         mmrchange -= Math.round(( Math.log(Math.min(params.avg_clicks_max, w_stats.clicks_avg)) * logbase_clicks - Math.log(Math.min(params.avg_clicks_max, l_stats.clicks_avg)) * logbase_clicks + 1 ) / 2 * params.avg_clicks_coeff);
 
-    mmrchange = Math.min(mmrchange, params.MMRCHANGE_MIN);
+    mmrchange = Math.max(mmrchange, params.MMRCHANGE_MIN);
     console.log(mmrchange);
 
     winner.mmr += mmrchange;
