@@ -278,7 +278,9 @@ function startGame(){
                                                 }
                                                 console.log(enemyUnits)
                                                 socket.emit('give damage', {room: room, dmg: actionClicked.damage, index: i});
+                                                Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.move})
                                                 actionTaken = true;
+                                                actionClicked = null
                                                 break;
                                             }
                                         }
@@ -495,7 +497,7 @@ function startGame(){
             socket.emit('update positions', {room: room, index: unitClicked.index, x: iso.px2pos(place.x, place.y).x, y: iso.px2pos(place.x, place.y).y});
             // turn = false;
             // console.log("not your turn")
-            unitClicked = null;
+            actionClicked = null;
         };
         
         var updateEnemyPositions = function(enemy){
