@@ -354,12 +354,17 @@ $(document).ready(function() {
     })
 });
 
-$(document).ready(function() {
-    $('.registration-button').click(function() {
-        $('.registration-page').show();
-        $('.login-page').hide();
-    })
-});
+var register = () => {
+    $('.registration-page').show();
+    $('.login-page').hide();
+}
+
+// $(document).ready(function() {
+//     $('.registration-button').click(function() {
+//         $('.registration-page').show();
+//         $('.login-page').hide();
+//     })
+// });
 
 $(document).ready(function(){
     $('.start-game-button').click(function(){
