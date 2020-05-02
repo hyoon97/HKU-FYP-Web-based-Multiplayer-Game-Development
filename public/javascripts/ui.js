@@ -293,6 +293,13 @@ var socketAuthenticated = (socket) => {
         alert("Your buddy has left or refreshed. Refresh to join a new room.")
     });
 
+    socket.on('leaver', () => {
+        alert("Your opponent has left. You will be redirected to the main menu.");
+        $('.menu-page').show();
+        $('.team-creation-page').hide();
+        socket.emit('leave room');
+    })
+
 }
 
 $(document).ready(function(){
@@ -424,6 +431,9 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('.quit-button').click(function(){
+        $('.menu-page').show();
+        $('.team-creation-page').hide();
+        socket.emit('quit game');
     });
 });
 
