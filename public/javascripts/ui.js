@@ -3,36 +3,42 @@ const roles =
     {
         "name": "Cleric",
         "hp": 90,
+        "defense": 5,
         "move": 2,
         "skill": [
                     {
                         "name": "Smite",
                         "range": 1,
-                        "damage": 10,
+                        "type": "attack",
+                        "value": 10,
                         "effect": "none"
                     },
                     {
                         "name": "Shielf Bash",
                         "range": 1,
-                        "damage": 15,
+                        "type": "attack",
+                        "value": 15,
                         "effect": "stun"
                     },
                     {
                         "name": "Purify Wound",
                         "range": 2,
-                        "damage": -10,
+                        "type": "heal",
+                        "value": 10,
                         "effect": "none"
                     },
                     {
                         "name": "Holy Nova",
-                        "range": 3,
-                        "damage": 20,
+                        "range": 2,
+                        "type": "attack",
+                        "value": 20,
                         "effect": "none"
                     },
                     {
                         "name": "Haste",
                         "range": 2,
-                        "damage": 0,
+                        "type": "buff",
+                        "value": 1,
                         "effect": "increase movement"
                     }
                 ],
@@ -41,36 +47,42 @@ const roles =
     {
         "name": "Fighter",
         "hp": 100,
-        "move": 3,
+        "move": 2,
+        "defense": 3,
         "skill": [
                     {
-                        "name": "Attack",
+                        "name": "Punch",
                         "range": 1,
-                        "damage": 15,
+                        "type": "attack",
+                        "value": 15,
                         "effect": "none"
                     },
                     {
                         "name": "Berserk",
                         "range": 0,
-                        "damage": 10,
+                        "type": "buff",
+                        "value": 10,
                         "effect": "increase damage"
                     },
                     {
                         "name": "Charge",
                         "range": 3,
-                        "damage": 20,
+                        "type": "attack",
+                        "value": 20,
                         "effect": "none"
                     },
                     {
                         "name": "Sunder armour",
                         "range": 1,
-                        "damage": 20,
-                        "effect": "decrease defense"
+                        "type": "attack",
+                        "value": 20,
+                        "effect": "stun"
                     },
                     {
                         "name": "Warcry",
                         "range": 3,
-                        "damage": 5,
+                        "type": "buff",
+                        "value": 5,
                         "effect": "increase damage"
                     }
                 ],
@@ -79,36 +91,42 @@ const roles =
     {
         "name": "Assassin",
         "hp": 70,
-        "move": 4,
+        "move": 3,
+        "defense": 2,
         "skill": [
                     {
                         "name": "Throwing Knives",
-                        "range": 3,
-                        "damage": 10,
+                        "range": 2,
+                        "type": "attack",
+                        "value": 5,
                         "effect": "none"
                     },
                     {
                         "name": "Assassinate",
                         "range": 1,
-                        "damage": 30,
+                        "type": "attack",
+                        "value": 30,
                         "effect": "none"
                     },
                     {
                         "name": "Bleed",
-                        "range": 3,
-                        "damage": 10,
+                        "range": 2,
+                        "type": "attack",
+                        "value": 10,
                         "effect": "poison"
                     },
                     {
                         "name": "Flashbang",
-                        "range": 3,
-                        "damage": 0,
+                        "range": 2,
+                        "type": "attack",
+                        "value": 0,
                         "effect": "stun"
                     },
                     {
-                        "name": "Decoy",
-                        "range": 3,
-                        "damage": 0,
+                        "name": "bomb",
+                        "range": 2,
+                        "type": "attack",
+                        "value": 20,
                         "effect": "none"
                     }
                 ],
@@ -117,37 +135,43 @@ const roles =
     {
         "name": "Ranger",
         "hp": 70,
-        "move": 4,
+        "move": 3,
+        "defense": 2,
         "skill": [
                     {
                         "name": "Arrows",
-                        "range": 5,
-                        "damage": 5,
+                        "range": 3,
+                        "type": "attack",
+                        "value": 5,
                         "effect": "none"
                     },
                     {
                         "name": "Bullseye",
-                        "range": 5,
-                        "damage": 20,
+                        "range": 3,
+                        "type": "attack",
+                        "value": 20,
                         "effect": "none"
                     },
                     {
                         "name": "Poison Arrow",
-                        "range": 5,
-                        "damage": 5,
+                        "range": 3,
+                        "type": "attack",
+                        "value": 5,
                         "effect": "poison"
                     },
                     {
                         "name": "Hunter's Mark",
-                        "range": 5,
-                        "damage": 0,
+                        "range": 3,
+                        "type": "debuff",
+                        "value": 10,
                         "effect": "decrease defense"
                     },
                     {
-                        "name": "Arrow Mark",
-                        "range": 5,
-                        "damage": 0,
-                        "effect": "none"
+                        "name": "Trap",
+                        "range": 1,
+                        "type": "attack",
+                        "value": 0,
+                        "effect": "stun"
                     } 
                 ],
         "description": "A wide-range unit specialized in dealing damage from far position"
@@ -156,35 +180,41 @@ const roles =
         "name": "Druid",
         "hp": 80,
         "move": 2,
+        "defense": 4,
         "skill": [
                     {
                         "name": "Root Bind",
-                        "range": 4,
-                        "damage": 0,
+                        "range": 3,
+                        "type": "attack",
+                        "value": 0,
                         "effect": "stun"
                     },
                     {
                         "name": "Thorn Whip",
                         "range":2,
-                        "damage": 10,
+                        "type": "attack",
+                        "value": 10,
                         "effect": "none"
                     },
                     {
                         "name": "Bark Skin",
                         "range": 0,
-                        "damage": 0,
+                        "type": "buff",
+                        "value": 5,
                         "effect": "increase defense"
                     },
                     {
                         "name": "Tree of Life",
                         "range": 3,
-                        "damage": -5,
+                        "type": "heal",
+                        "value": 5,
                         "effect": "none"
                     },
                     {
                         "name": "Buff Siphon",
                         "range": 3,
-                        "damage": 5,
+                        "type": "buff",
+                        "value": 5,
                         "effect": "increase damage"
                     }
                 ],
@@ -194,35 +224,41 @@ const roles =
         "name": "Wizard",
         "hp": 60,
         "move": 1,
+        "defense": 1,
         "skill": [
                     {
                         "name": "Magic Missile ",
-                        "range": 4,
-                        "damage": 10,
+                        "range": 3,
+                        "type": "attack",
+                        "value": 5,
                         "effect": "none"
                     },
                     {
                         "name": "Fireball",
-                        "range": 30,
-                        "damage": 5,
-                        "effect": "incendiary"
+                        "range": 3,
+                        "type": "attack",
+                        "value": 20,
+                        "effect": "none"
                     },
                     {
                         "name": "Lightning Strike",
-                        "range": 30,
-                        "damage": 5,
+                        "range": 3,
+                        "type": "attack",
+                        "value": 20,
                         "effect": "stun"
                     },
                     {
                         "name": "Teleport",
                         "range": 4,
-                        "damage": 0,
+                        "type": "move",
+                        "value": 3,
                         "effect": "none"
                     },
                     {
                         "name": "Slowness",
-                        "range":5,
-                        "damage": 1,
+                        "range": 3,
+                        "type": "debuff",
+                        "value": 1,
                         "effect": "decrease movement"
                     }
                 ],
