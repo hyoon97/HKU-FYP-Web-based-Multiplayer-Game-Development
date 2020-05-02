@@ -230,31 +230,33 @@ function startGame(){
                                 var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
                                 var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                                 if(!actionTaken && !moved){
-                                    for(i=0; i<4; i++){
-                                        if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
-                                            if(actionClicked){
-                                                if(actionClicked == 'move'){
-                                                    Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
+                                    if(!actionClicked){
+                                        for(i=0; i<4; i++){
+                                            if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                                if(actionClicked){
+                                                    if(actionClicked == 'move'){
+                                                        Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
+                                                    }
+                                                    else{
+                                                        Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
+                                                    }
                                                 }
-                                                else{
-                                                    Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
-                                                }
+                                                Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
+                                                unitClicked = playerUnits[i];
+                                                Crafty.trigger("button-1", unitClicked.actions[0].name);
+                                                Crafty.trigger("button-2", unitClicked.actions[1].name);
+                                                Crafty.trigger("button-3", unitClicked.actions[2].name);
+                                                Crafty.trigger("button-4", unitClicked.actions[3].name);
+                                                Crafty.trigger("button-5", 'Move');
+                                                Crafty.trigger("button-6", 'End Turn');
+                                                $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
+                                                $(".character-image").show();
+                                                Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
+                                                Crafty.trigger("show name", unitClicked.name);
+                                                actionClicked = null
+                                                this.addComponent('selected_floor');
+                                                this.removeComponent('floor');
                                             }
-                                            Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
-                                            unitClicked = playerUnits[i];
-                                            Crafty.trigger("button-1", unitClicked.actions[0].name);
-                                            Crafty.trigger("button-2", unitClicked.actions[1].name);
-                                            Crafty.trigger("button-3", unitClicked.actions[2].name);
-                                            Crafty.trigger("button-4", unitClicked.actions[3].name);
-                                            Crafty.trigger("button-5", 'Move');
-                                            Crafty.trigger("button-6", 'End Turn');
-                                            $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
-                                            $(".character-image").show();
-                                            Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
-                                            Crafty.trigger("show name", unitClicked.name);
-                                            actionClicked = null
-                                            this.addComponent('selected_floor');
-                                            this.removeComponent('floor');
                                         }
                                     }
                                 }
@@ -285,20 +287,62 @@ function startGame(){
                                 }
                                 else{
                                     if(!actionTaken){
-                                        for(i=0; i<4; i++){
-                                            if(iso.px2pos(this.x, this.y).x == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).y+3){
-                                                console.log('give dmg')
-                                                // enemyUnits[i].hp = enemyUnits[i].hp - actionClicked.damage
-                                                enemyUnits[i].hp = 0
-                                                if(enemyUnits[i].hp == 0){
-                                                    enemyUnits[i].destroy()
+                                        if (actionClicked.type == "attack"){
+                                            for(i=0; i<4; i++){
+                                                if(iso.px2pos(this.x, this.y).x == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).y+3){
+                                                    console.log('give dmg')
+                                                    // enemyUnits[i].hp = enemyUnits[i].hp - Math.max(0, unitClicked.extra_damage + actionClicked.value - enemyUnits[i].def)
+                                                    enemyUnits[i].hp = 0
+                                                    if(enemyUnits[i].hp == 0){
+                                                        enemyUnits[i].destroy()
+                                                    }
+                                                    var dmg = Math.max(0, actionClicked.value - enemyUnits[i].def)
+                                                    socket.emit('give damage', {room: room, dmg: dmg, index: i});
+                                                    Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                    actionTaken = true;
+                                                    actionClicked = null;
+                                                    break;
                                                 }
-                                                console.log(enemyUnits)
-                                                socket.emit('give damage', {room: room, dmg: actionClicked.damage, index: i});
-                                                Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
-                                                actionTaken = true;
-                                                actionClicked = null;
-                                                break;
+                                            }
+                                        }
+                                        if (actionClicked.type == "heal"){
+                                            for(i=0; i<4; i++){
+                                                if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                                    playerUnits[i].hp = Math.min(playerUnits[i].max_hp, playerUnits[i].hp + actionClicked.value)
+                                                    socket.emit('heal', {room: room, heal: actionClicked.value, index: i});
+                                                    Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                    actionTaken = true;
+                                                    actionClicked = null;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        if (actionClicked.type == "buff"){
+                                            for(i=0; i<4; i++){
+                                                if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                                    if(actionClicked.effect == "increase movement"){
+                                                        playerUnits[i].move = playerUnits[i].move + actionClicked.value
+                                                        Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                        actionTaken = true;
+                                                        actionClicked = null;
+                                                        break;
+                                                    }
+                                                    if(actionClicked.effect == "increase damage"){
+                                                        playerUnits[i].extra_damage = playerUnits[i].extra_damage + actionClicked.value
+                                                        Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                        actionTaken = true;
+                                                        actionClicked = null;
+                                                        break;
+                                                    }
+                                                    if(actionClicked.effect == "increase defense"){
+                                                        playerUnits[i].def = playerUnits[i].def + actionClicked.value
+                                                        socket.emit('inc_def', {room: room, inc_def: actionClicked.value, index: i});
+                                                        Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                        actionTaken = true;
+                                                        actionClicked = null;
+                                                        break;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -640,6 +684,23 @@ function startGame(){
             }
             endGame()
             console.log(playerUnits[data.index].hp)
+        })
+
+        socket.on('enemy heal', function(data){
+            console.log('enemy healed by ' + data.heal)
+            console.log(enemyUnits[data.index].hp)
+            
+            enemyUnits[data.index].hp = Math.min(enemyUnits[data.index].max_hp, enemyUnits[data.index].hp + data.heal)
+            
+            console.log(enemyUnits[data.index].hp)
+        })
+
+        socket.on('enemy inc_def', function(data){
+            console.log("enemy's def increase by " + data.inc_def)
+            console.log(enemyUnits[data.index].def)
+            enemyUnits[data.index].def = enemyUnits[data.index].def - data.inc_def
+            
+            console.log(enemyUnits[data.index].def)
         })
 
         socket.on('start turn', ()=>{

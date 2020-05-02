@@ -4,6 +4,7 @@ const roles =
         "name": "Cleric",
         "hp": 90,
         "defense": 5,
+        "extra_damage": 0,
         "move": 2,
         "skill": [
                     {
@@ -48,6 +49,7 @@ const roles =
         "name": "Fighter",
         "hp": 100,
         "move": 2,
+        "extra_damage": 0,
         "defense": 3,
         "skill": [
                     {
@@ -92,6 +94,7 @@ const roles =
         "name": "Assassin",
         "hp": 70,
         "move": 3,
+        "extra_damage": 0,
         "defense": 2,
         "skill": [
                     {
@@ -136,6 +139,7 @@ const roles =
         "name": "Ranger",
         "hp": 70,
         "move": 3,
+        "extra_damage": 0,
         "defense": 2,
         "skill": [
                     {
@@ -180,6 +184,7 @@ const roles =
         "name": "Druid",
         "hp": 80,
         "move": 2,
+        "extra_damage": 0,
         "defense": 4,
         "skill": [
                     {
@@ -224,6 +229,7 @@ const roles =
         "name": "Wizard",
         "hp": 60,
         "move": 1,
+        "extra_damage": 0,
         "defense": 1,
         "skill": [
                     {
@@ -712,6 +718,8 @@ $(document).ready(function(){
                           'role': roles[selected].name, 
                           'move': roles[selected].move, 
                           'hp': roles[selected].hp,
+                          'def': roles[selected].defense,
+                          'extra_damage': 0,
                         //   'actions': [skills[0], skills[1], skills[2], skills[3]],
                           'actions': [roles[selected].skill[skills[0]], roles[selected].skill[skills[1]], roles[selected].skill[skills[2]], roles[selected].skill[skills[3]]], 
                           'name': '', 

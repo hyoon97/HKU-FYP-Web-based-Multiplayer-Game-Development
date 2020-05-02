@@ -243,6 +243,16 @@ io.on('connection', function(socket){
         socket.to(data.room).emit('get damage', data);
     })
 
+    socket.on('heal', function(data){
+        socket.stats.dmg_dealt += data.dmg;
+        socket.to(data.room).emit('enemy heal', data);
+    })
+
+    socket.on('inc_def', function(data){
+        socket.stats.dmg_dealt += data.dmg;
+        socket.to(data.room).emit('enemy inc_def', data);
+    })
+
     socket.on('death confirmed', () => {
         var clients = roomToSockets.get(socket.roomID);
         // console.log(clients);
