@@ -58,12 +58,12 @@ function startGame(){
     Crafty.sprite(320,320,'/images/character/blue-Ranger.png',{blue_Ranger:[0,0,1,1]});
     Crafty.sprite(320,320,'/images/character/blue-Druid.png',{blue_Druid:[0,0,1,1]});
     Crafty.sprite(320,320,'/images/character/blue-Wizard.png',{blue_Wizard:[0,0,1,1]});
-    Crafty.sprite(320,320,'/images/character/Cleric.png',{red_Cleric:[0,0,1,1]});
-    Crafty.sprite(320,320,'/images/character/Fighter.png',{red_Fighter:[0,0,1,1]});
-    Crafty.sprite(320,320,'/images/character/Assassin.png',{red_Assassin:[0,0,1,1]});
-    Crafty.sprite(320,320,'/images/character/Ranger.png',{red_Ranger:[0,0,1,1]});
-    Crafty.sprite(320,320,'/images/character/Druid.png',{red_Druid:[0,0,1,1]});
-    Crafty.sprite(320,320,'/images/character/Wizard.png',{red_Wizard:[0,0,1,1]});
+    Crafty.sprite(320,320,'/images/character/red-Cleric.png',{red_Cleric:[0,0,1,1]});
+    Crafty.sprite(320,320,'/images/character/red-Fighter.png',{red_Fighter:[0,0,1,1]});
+    Crafty.sprite(320,320,'/images/character/red-Assassin.png',{red_Assassin:[0,0,1,1]});
+    Crafty.sprite(320,320,'/images/character/red-Ranger.png',{red_Ranger:[0,0,1,1]});
+    Crafty.sprite(320,320,'/images/character/red-Druid.png',{red_Druid:[0,0,1,1]});
+    Crafty.sprite(320,320,'/images/character/red-Wizard.png',{red_Wizard:[0,0,1,1]});
 
     Crafty.scene('main', function () {
         var iso = Crafty.isometric.size(64);
