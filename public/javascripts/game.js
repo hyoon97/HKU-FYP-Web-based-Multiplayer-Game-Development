@@ -227,9 +227,9 @@ function startGame(){
                         })
                         .bind("Click", function() { 
                             if(unitClicked){
+                                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                                 if(!actionTaken && !moved){
-                                    var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
-                                    var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                                     for(i=0; i<4; i++){
                                         if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
                                             if(actionClicked){
@@ -249,6 +249,7 @@ function startGame(){
                                             Crafty.trigger("button-5", 'Move');
                                             Crafty.trigger("button-6", 'End Turn');
                                             $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
+                                            $(".character-image").show();
                                             Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
                                             actionClicked = null
                                             this.addComponent('selected_floor');
@@ -272,10 +273,13 @@ function startGame(){
                                         if (valid){
                                             if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.move){
                                                 Crafty.trigger('HideRange', {x:x, y:y, range: unitClicked.move})
+                                                this.addComponent('selected_floor');
+                                                this.removeComponent('floor');
                                                 moveUnit(this);
                                             }
                                         }
-                                        moved = true
+                                        actionClicked = null;
+                                        moved = true;
                                     }
                                 }
                                 else{
@@ -292,7 +296,7 @@ function startGame(){
                                                 socket.emit('give damage', {room: room, dmg: actionClicked.damage, index: i});
                                                 Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
                                                 actionTaken = true;
-                                                actionClicked = null
+                                                actionClicked = null;
                                                 break;
                                             }
                                         }
@@ -313,6 +317,7 @@ function startGame(){
                                             Crafty.trigger("button-5", 'Move');
                                             Crafty.trigger("button-6", 'End Turn');
                                             $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
+                                            $(".character-image").show();
                                             Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
                                             this.addComponent('selected_floor');
                                             this.removeComponent('floor');
@@ -794,7 +799,7 @@ function startGame(){
 
         var character_image = Crafty.e('2D, UI, HTML')
             .attr({x: 20, y: $(window).height()-122})
-            .append("<img src='' class='character-image' style='height: 90px; width: 90px' />")
+            .append("<img src='' class='character-image' style='height: 90px; width: 90px; visibility: hidden;' />")
 
         var hp_text = Crafty.e("2D, UI, DOM, Text")
             .attr({x: 135, y: $(window).height()-95})
@@ -937,6 +942,8 @@ function startGame(){
                 Crafty.trigger('button-4', "")
                 Crafty.trigger('button-5', "")
                 Crafty.trigger('button-6', "")
+                $(".character-image").hide();
+                Crafty.trigger("show hp", "");
                 var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
                 var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                 if(actionClicked){
