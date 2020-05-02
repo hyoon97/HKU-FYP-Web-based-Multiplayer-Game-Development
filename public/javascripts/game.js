@@ -227,44 +227,56 @@ function startGame(){
                         })
                         .bind("Click", function() { 
                             if(unitClicked){
-                                var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
-                                var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
-                                for(i=0; i<4; i++){
-                                    if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
-                                        if(actionClicked){
-                                            if(actionClicked == 'move'){
-                                                Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
+                                if(!actionTaken && !moved){
+                                    var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
+                                    var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
+                                    for(i=0; i<4; i++){
+                                        if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                            if(actionClicked){
+                                                if(actionClicked == 'move'){
+                                                    Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
+                                                }
+                                                else{
+                                                    Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
+                                                }
                                             }
-                                            else{
-                                                Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
-                                            }
+                                            Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
+                                            unitClicked = playerUnits[i];
+                                            Crafty.trigger("button-1", unitClicked.actions[0].name);
+                                            Crafty.trigger("button-2", unitClicked.actions[1].name);
+                                            Crafty.trigger("button-3", unitClicked.actions[2].name);
+                                            Crafty.trigger("button-4", unitClicked.actions[3].name);
+                                            Crafty.trigger("button-5", 'Move');
+                                            Crafty.trigger("button-6", 'End Turn');
+                                            $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
+                                            Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
+                                            actionClicked = null
+                                            this.addComponent('selected_floor');
+                                            this.removeComponent('floor');
                                         }
-                                        Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
-                                        unitClicked = playerUnits[i];
-                                        actionClicked = null
-                                        this.addComponent('selected_floor');
-                                        this.removeComponent('floor');
                                     }
                                 }
                                 if(actionClicked == 'move'){
-                                    var valid = true
-                                    for(i=0; i<4; i++){
-                                        if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
-                                            valid = false
-                                            break
+                                    if(!moved){
+                                        var valid = true
+                                        for(i=0; i<4; i++){
+                                            if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                                valid = false
+                                                break
+                                            }
+                                            else if(iso.px2pos(this.x, this.y).x == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).y+3){
+                                                valid = false
+                                                break
+                                            }
                                         }
-                                        else if(iso.px2pos(this.x, this.y).x == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).y+3){
-                                            valid = false
-                                            break
+                                        if (valid){
+                                            if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.move){
+                                                Crafty.trigger('HideRange', {x:x, y:y, range: unitClicked.move})
+                                                moveUnit(this);
+                                            }
                                         }
+                                        moved = true
                                     }
-                                    if (valid){
-                                        if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.move){
-                                            Crafty.trigger('HideRange', {x:x, y:y, range: unitClicked.move})
-                                            moveUnit(this);
-                                        }
-                                    }
-                                    moved = true
                                 }
                                 else{
                                     if(!actionTaken){
@@ -300,6 +312,8 @@ function startGame(){
                                             Crafty.trigger("button-4", unitClicked.actions[3].name);
                                             Crafty.trigger("button-5", 'Move');
                                             Crafty.trigger("button-6", 'End Turn');
+                                            $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
+                                            Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
                                             this.addComponent('selected_floor');
                                             this.removeComponent('floor');
                                             // Crafty.trigger('ShowRange', {x:this.x, y:this.y, range:unitClicked.move});
@@ -540,9 +554,11 @@ function startGame(){
                 color = player.color
                 unit.index = i;
                 unit.controllable = controllable;
+                unit.image_src = units[i].playerColor + "-" + units[i].role;
                 unit.x = units[i].xPosition
                 unit.y = units[i].yPosition
                 unit.move = unitInfo.move;
+                unit.max_hp = unitInfo.hp;
                 unit.hp = unitInfo.hp;
                 console.log(unit.hp)
                 unit.actions = unitInfo.actions
@@ -775,6 +791,22 @@ function startGame(){
         var text_field = Crafty.e('2D, UI, HTML')
             .attr({x: 932, y: $(window).height()-40})
             .append("<textarea style='width:330px; height: 20px; resize: none; border: none; background-color: transparent; color: rgb(0,145,255)' class='text-area' placeholder='Type message..' name='msg'></textarea>")
+
+        var character_image = Crafty.e('2D, UI, HTML')
+            .attr({x: 20, y: $(window).height()-122})
+            .append("<img src='' class='character-image' style='height: 90px; width: 90px' />")
+
+        var hp_text = Crafty.e("2D, UI, DOM, Text")
+            .attr({x: 135, y: $(window).height()-95})
+            .textColor('red')
+            .textFont({size: '21px', family:'Arial'})
+            .textAlign('center')
+            .text("")
+            .bind("show hp", function(data) {
+                this.text(data);
+            })
+            .css({'pointer-events': 'none'})
+            .unselectable();
 
         $(".text-area").keyup(function(event) {
             if (event.keyCode === 13) {
