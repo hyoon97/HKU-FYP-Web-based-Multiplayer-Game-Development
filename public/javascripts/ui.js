@@ -401,7 +401,6 @@ $(document).ready(function(){
         if($('.role-selection-container').css('display') == 'none'){
             $('.role-selection-container').show();
         }
-        socket.emit('check playerID')
     });
 });
 
@@ -431,33 +430,36 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.ready-button').click(function(){
         console.log(team.length)
-        if (team.length === 4){
-            console.log(team);
-            ready += 1
-            socket.emit('ready', {team: team, id: player.id, room:player.room});
-            if(ready === 2){
-                $('.team-creation-page').hide()
-                $('.loading-page').show()
-                if(player.id == 0){
-                    $('.background-story').text('Your team is a group of bandits hiding in the cave. Your team was planning to pillage a small town. Suddenly, a group or noble warriors entered your cave. To save your team, fight those warriors!')
+        if ($.trim($("#name1").val()) != "" && $.trim($("#name2").val()) != "" && $.trim($("#name3").val()) != "" && $.trim($("#name4").val()) != ""){
+            team[0].name = $.trim($("#name1").val())
+            team[1].name = $.trim($("#name2").val())
+            team[2].name = $.trim($("#name3").val())
+            team[3].name = $.trim($("#name4").val())
+            if (team.length === 4){
+                console.log(team);
+                ready += 1
+                socket.emit('ready', {team: team, id: player.id, room:player.room});
+                if(ready === 2){
+                    $('.team-creation-page').hide()
+                    $('.loading-page').show()
+                    if(player.id == 0){
+                        $('.background-story').text('Your team is a group of bandits hiding in the cave. Your team was planning to pillage a small town. Suddenly, a group or noble warriors entered your cave. To save your team, fight those warriors!')
+                    }
+                    if(player.id == 1){
+                        $('.background-story').text('Your team is a group of noble warriors from a kingdom. The King ordered you to go on a quest to anhilate the bandits and bring piece to people. Your team reached cave and found bandits inside it. Now the glorious battle begins!')
+                    }
+                    var interval = 15 * 1000;
+                        setTimeout(function() {
+                        $('.loading-page').hide()
+                        startGame();
+                        $('.game-page').show()
+                        socket.emit('start game', player);
+                    }, interval);
                 }
-                if(player.id == 1){
-                    $('.background-story').text('Your team is a group of noble warriors from a kingdom. The King ordered you to go on a quest to anhilate the bandits and bring piece to people. Your team reached cave and found bandits inside it. Now the glorious battle begins!')
-                }
-                var interval = 15 * 1000;
-                    setTimeout(function() {
-                    $('.loading-page').hide()
-                    startGame();
-                    $('.game-page').show()
-                    socket.emit('start game', player);
-                }, interval);
-                // startGame();
-                // $('.game-page').show()
-                // socket.emit('start game', player);
             }
-        }
-        else{
-            alert('please add four piece')
+            else{
+                alert('please add four piece')
+            }
         }
     });
 });
@@ -666,6 +668,7 @@ $(document).ready(function(){
                           'hp': roles[selected].hp,
                         //   'actions': [skills[0], skills[1], skills[2], skills[3]],
                           'actions': [roles[selected].skill[skills[0]], roles[selected].skill[skills[1]], roles[selected].skill[skills[2]], roles[selected].skill[skills[3]]], 
+                          'name': '', 
                           'xPosition': xPosition,
                           'yPosition': yPosition + slot
                          };
@@ -687,6 +690,23 @@ $(document).ready(function(){
             if($('.role-selection-container').css('display') != 'none'){
                 $('.role-selection-container').hide();
             }
+            if(slot == 0){
+                $('.wrap-name1').show()
+                $('.wrap-name1').val('')
+            }
+            else if(slot == 1){
+                $('.wrap-name2').show()
+                $('.wrap-name2').val('')
+            }
+            else if(slot == 2){
+                $('.wrap-name3').show()
+                $('.wrap-name3').val('')
+            }
+            else{
+                $('.wrap-name4').show()
+                $('.wrap-name4').val('')
+            }
+            
             selected = null;
             skills = [];
             // if(team.length == 4){
@@ -696,7 +716,7 @@ $(document).ready(function(){
             console.log(team);
         }
         else {
-            console.log('select a role and 4 actions')
+            alert('select a role and 4 actions')
         }
     });
 });

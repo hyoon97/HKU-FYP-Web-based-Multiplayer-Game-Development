@@ -251,6 +251,7 @@ function startGame(){
                                             $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
                                             $(".character-image").show();
                                             Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
+                                            Crafty.trigger("show name", unitClicked.name);
                                             actionClicked = null
                                             this.addComponent('selected_floor');
                                             this.removeComponent('floor');
@@ -319,6 +320,7 @@ function startGame(){
                                             $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
                                             $(".character-image").show();
                                             Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
+                                            Crafty.trigger("show name", unitClicked.name);
                                             this.addComponent('selected_floor');
                                             this.removeComponent('floor');
                                             // Crafty.trigger('ShowRange', {x:this.x, y:this.y, range:unitClicked.move});
@@ -565,6 +567,7 @@ function startGame(){
                 unit.move = unitInfo.move;
                 unit.max_hp = unitInfo.hp;
                 unit.hp = unitInfo.hp;
+                unit.name = unitInfo.name;
                 console.log(unit.hp)
                 unit.actions = unitInfo.actions
                 // unit.bind("Click", function() {
@@ -799,7 +802,7 @@ function startGame(){
 
         var character_image = Crafty.e('2D, UI, HTML')
             .attr({x: 20, y: $(window).height()-122})
-            .append("<img src='' class='character-image' style='height: 90px; width: 90px; visibility: hidden;' />")
+            .append("<img src='' class='character-image' style='height: 90px; width: 90px; display:none;' />")
 
         var hp_text = Crafty.e("2D, UI, DOM, Text")
             .attr({x: 135, y: $(window).height()-95})
@@ -808,6 +811,18 @@ function startGame(){
             .textAlign('center')
             .text("")
             .bind("show hp", function(data) {
+                this.text(data);
+            })
+            .css({'pointer-events': 'none'})
+            .unselectable();
+
+        var name_text = Crafty.e("2D, UI, DOM, Text")
+            .attr({x: 135, y: $(window).height()-65})
+            .textColor('white')
+            .textFont({size: '15px', family:'Arial'})
+            .textAlign('center')
+            .text("")
+            .bind("show name", function(data) {
                 this.text(data);
             })
             .css({'pointer-events': 'none'})
@@ -944,6 +959,7 @@ function startGame(){
                 Crafty.trigger('button-6', "")
                 $(".character-image").hide();
                 Crafty.trigger("show hp", "");
+                Crafty.trigger("show name", "");
                 var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
                 var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
                 if(actionClicked){
