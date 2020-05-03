@@ -174,6 +174,12 @@ io.on('connection', function(socket){
     // Start a game using MMS
     socket.on('quickplay', async (data) => {
         var username = data.username;
+        var queue = mms.matchmaker.queue;
+        for (var i=0; i<queue.length; i++) {
+            if (queue[i].username == username) {
+                return;
+            }
+        }
         var user;
         try {
             let user = await User.findOne({
