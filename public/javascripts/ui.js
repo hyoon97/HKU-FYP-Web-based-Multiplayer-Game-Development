@@ -167,7 +167,7 @@ const roles =
                         "name": "Hunter's Mark",
                         "range": 3,
                         "type": "debuff",
-                        "value": 10,
+                        "value": 5,
                         "effect": "decrease defense"
                     },
                     {

@@ -313,7 +313,7 @@ function startGame(){
                                                 }
                                             }
                                         }
-                                        if (actionClicked.type == "heal"){
+                                        else if (actionClicked.type == "heal"){
                                             for(i=0; i<4; i++){
                                                 if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
                                                     if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
@@ -327,7 +327,29 @@ function startGame(){
                                                 }
                                             }
                                         }
-                                        if (actionClicked.type == "buff"){
+                                        else if (actionClicked.type == "move"){
+                                            var valid = true
+                                            for(i=0; i<4; i++){
+                                                if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                                    valid = false
+                                                    break
+                                                }
+                                                else if(iso.px2pos(this.x, this.y).x == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).y+3){
+                                                    valid = false
+                                                    break
+                                                }
+                                            }
+                                            if (valid){
+                                                if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.range){
+                                                    Crafty.trigger('HideRange', {x:x, y:y, range: unitClicked.range})
+                                                    this.addComponent('selected_floor');
+                                                    this.removeComponent('floor');
+                                                    moveUnit(this);
+                                                    actionTaken = true;
+                                                }
+                                            }
+                                        }
+                                        else if (actionClicked.type == "buff"){
                                             for(i=0; i<4; i++){
                                                 if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
                                                     if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
@@ -338,16 +360,39 @@ function startGame(){
                                                             actionClicked = null;
                                                             break;
                                                         }
-                                                        if(actionClicked.effect == "increase damage"){
+                                                        else if(actionClicked.effect == "increase damage"){
                                                             playerUnits[i].extra_damage = playerUnits[i].extra_damage + actionClicked.value
                                                             Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
                                                             actionTaken = true;
                                                             actionClicked = null;
                                                             break;
                                                         }
-                                                        if(actionClicked.effect == "increase defense"){
+                                                        else if(actionClicked.effect == "increase defense"){
                                                             playerUnits[i].def = playerUnits[i].def + actionClicked.value
                                                             socket.emit('inc_def', {room: room, inc_def: actionClicked.value, index: i});
+                                                            Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                            actionTaken = true;
+                                                            actionClicked = null;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if (actionClicked.type == "debuff"){
+                                            for(i=0; i<4; i++){
+                                                if(iso.px2pos(this.x, this.y).x == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(enemyUnits[i].x, enemyUnits[i].y).y+3){
+                                                    if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
+                                                        if(actionClicked.effect == "decrease movement"){
+                                                            socket.emit('dec_mov', {room: room, dec_mov: 1, index: i});
+                                                            Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
+                                                            actionTaken = true;
+                                                            actionClicked = null;
+                                                            break;
+                                                        }
+                                                        else if(actionClicked.effect == "decrease defense"){
+                                                            enemyUnits[i].def = enemyUnits[i].def - enemyClicked.value
+                                                            socket.emit('dec_def', {room: room, dec_def: actionClicked.value, index: i});
                                                             Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
                                                             actionTaken = true;
                                                             actionClicked = null;
@@ -718,6 +763,20 @@ function startGame(){
             enemyUnits[data.index].def = enemyUnits[data.index].def - data.inc_def
             
             console.log(enemyUnits[data.index].def)
+        })
+
+        socket.on('player dec_mov', function(data){
+            console.log("player's mov decrease by " + data.dec_mov)
+            console.log(playerUnits[data.index].move)
+            playerUnits[data.index].move = playerUnits[data.index].move - data.dec_mov
+            console.log(playerUnits[data.index].move)
+        })
+
+        socket.on('player dec_def', function(data){
+            console.log("player's defense decrease by " + data.dec_def)
+            console.log(playerUnits[data.index].def)
+            playerUnits[data.index].def = playerUnits[data.index].def - data.dec_def
+            console.log(playerUnits[data.index].def)
         })
 
         socket.on('start turn', ()=>{
