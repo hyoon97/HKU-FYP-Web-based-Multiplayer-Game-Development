@@ -341,8 +341,8 @@ function startGame(){
                                                 }
                                             }
                                             if (valid){
-                                                if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * unitClicked.range){
-                                                    Crafty.trigger('HideRange', {x:x, y:y, range: unitClicked.range})
+                                                if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
+                                                    Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
                                                     this.addComponent('selected_floor');
                                                     this.removeComponent('floor');
                                                     moveUnit(this);
