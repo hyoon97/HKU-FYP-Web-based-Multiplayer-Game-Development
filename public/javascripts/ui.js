@@ -617,6 +617,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('#action-button1').click(function(){
+        $('.action-description').text('')
+        $('.action-description').append("name: " + roles[selected].skill[0].name + "<br/>")
+        $('.action-description').append("range: " + roles[selected].skill[0].range + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[0].eype + "<br/>")
+        $('.action-description').append("value: " + roles[selected].skill[0].value + "<br/>")
+        $('.action-description').append("effect: " + roles[selected].skill[0].effect + "<br/>")
     });
 });
 
@@ -635,6 +641,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('#action-button2').click(function(){
+        $('.action-description').text('')
+        $('.action-description').append("name: " + roles[selected].skill[1].name + "<br/>")
+        $('.action-description').append("range: " + roles[selected].skill[1].range + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[1].eype + "<br/>")
+        $('.action-description').append("value: " + roles[selected].skill[1].value + "<br/>")
+        $('.action-description').append("effect: " + roles[selected].skill[1].effect + "<br/>")
     });
 });
 
@@ -653,6 +665,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('#action-button3').click(function(){
+        $('.action-description').text('')
+        $('.action-description').append("name: " + roles[selected].skill[2].name + "<br/>")
+        $('.action-description').append("range: " + roles[selected].skill[2].range + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[2].eype + "<br/>")
+        $('.action-description').append("value: " + roles[selected].skill[2].value + "<br/>")
+        $('.action-description').append("effect: " + roles[selected].skill[2].effect + "<br/>")
     });
 });
 
@@ -671,6 +689,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('#action-button4').click(function(){
+        $('.action-description').text('')
+        $('.action-description').append("name: " + roles[selected].skill[3].name + "<br/>")
+        $('.action-description').append("range: " + roles[selected].skill[3].range + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[3].eype + "<br/>")
+        $('.action-description').append("value: " + roles[selected].skill[3].value + "<br/>")
+        $('.action-description').append("effect: " + roles[selected].skill[3].effect + "<br/>")
     });
 });
 
@@ -689,6 +713,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('#action-button5').click(function(){
+        $('.action-description').text('')
+        $('.action-description').append("name: " + roles[selected].skill[4].name + "<br/>")
+        $('.action-description').append("range: " + roles[selected].skill[4].range + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[4].eype + "<br/>")
+        $('.action-description').append("value: " + roles[selected].skill[4].value + "<br/>")
+        $('.action-description').append("effect: " + roles[selected].skill[4].effect + "<br/>")
     });
 });
 
@@ -733,6 +763,7 @@ $(document).ready(function(){
             $('#label4').text('');
             $('#label5').text('');
             $('#label6').text('');
+            $('.action-description').text('')
             $('.sample-image').attr('src', '');
             $('#select-button1').attr('src', '/images/ui/role-selection-select-button.png');
             $('#select-button2').attr('src', '/images/ui/role-selection-select-button.png');
