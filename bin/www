@@ -195,8 +195,8 @@ io.on('connection', function(socket){
     });
 
     socket.on('quit game', () => {
-        socket.to(socket.roomID).emit('leaver')
         socket.leave(socket.roomID);
+        socket.to(socket.roomID).emit('leaver')
         socket.roomID = "";
     })
 

@@ -332,7 +332,10 @@ var socketAuthenticated = (socket) => {
     });
     
     socket.on('user disconnected', () =>{
-        alert("Your buddy has left or refreshed. Refresh to join a new room.")
+        alert("Your buddy has left or refreshed.")
+        $('.game-page').hide();
+        $('.menu-page').show();
+        socket.emit('leave room');
     });
 
     socket.on('leaver', () => {
