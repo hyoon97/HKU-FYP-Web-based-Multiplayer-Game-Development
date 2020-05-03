@@ -623,7 +623,7 @@ $(document).ready(function(){
         $('.action-description').text('')
         $('.action-description').append("name: " + roles[selected].skill[0].name + "<br/>")
         $('.action-description').append("range: " + roles[selected].skill[0].range + "<br/>")
-        $('.action-description').append("type: " + roles[selected].skill[0].eype + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[0].type + "<br/>")
         $('.action-description').append("value: " + roles[selected].skill[0].value + "<br/>")
         $('.action-description').append("effect: " + roles[selected].skill[0].effect + "<br/>")
     });
@@ -647,7 +647,7 @@ $(document).ready(function(){
         $('.action-description').text('')
         $('.action-description').append("name: " + roles[selected].skill[1].name + "<br/>")
         $('.action-description').append("range: " + roles[selected].skill[1].range + "<br/>")
-        $('.action-description').append("type: " + roles[selected].skill[1].eype + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[1].type + "<br/>")
         $('.action-description').append("value: " + roles[selected].skill[1].value + "<br/>")
         $('.action-description').append("effect: " + roles[selected].skill[1].effect + "<br/>")
     });
@@ -671,7 +671,7 @@ $(document).ready(function(){
         $('.action-description').text('')
         $('.action-description').append("name: " + roles[selected].skill[2].name + "<br/>")
         $('.action-description').append("range: " + roles[selected].skill[2].range + "<br/>")
-        $('.action-description').append("type: " + roles[selected].skill[2].eype + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[2].type + "<br/>")
         $('.action-description').append("value: " + roles[selected].skill[2].value + "<br/>")
         $('.action-description').append("effect: " + roles[selected].skill[2].effect + "<br/>")
     });
@@ -695,7 +695,7 @@ $(document).ready(function(){
         $('.action-description').text('')
         $('.action-description').append("name: " + roles[selected].skill[3].name + "<br/>")
         $('.action-description').append("range: " + roles[selected].skill[3].range + "<br/>")
-        $('.action-description').append("type: " + roles[selected].skill[3].eype + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[3].type + "<br/>")
         $('.action-description').append("value: " + roles[selected].skill[3].value + "<br/>")
         $('.action-description').append("effect: " + roles[selected].skill[3].effect + "<br/>")
     });
@@ -719,7 +719,7 @@ $(document).ready(function(){
         $('.action-description').text('')
         $('.action-description').append("name: " + roles[selected].skill[4].name + "<br/>")
         $('.action-description').append("range: " + roles[selected].skill[4].range + "<br/>")
-        $('.action-description').append("type: " + roles[selected].skill[4].eype + "<br/>")
+        $('.action-description').append("type: " + roles[selected].skill[4].type + "<br/>")
         $('.action-description').append("value: " + roles[selected].skill[4].value + "<br/>")
         $('.action-description').append("effect: " + roles[selected].skill[4].effect + "<br/>")
     });
