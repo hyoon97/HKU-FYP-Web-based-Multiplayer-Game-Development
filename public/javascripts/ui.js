@@ -280,6 +280,7 @@ var team = [];
 var skills = [];
 var slot;
 var ready = 0;
+var am_ready = false;
 
 var username;
 var socket;
@@ -324,6 +325,7 @@ var socketAuthenticated = (socket) => {
                 startGame();
                 $('.game-page').show()
                 socket.emit('start game', player);
+                am_ready=false;
             }, interval);
             // $('.game-page').show()
             // startGame();
@@ -484,6 +486,8 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('.ready-button').click(function(){
+        if (am_ready)
+            return;
         console.log(team.length)
         if ($.trim($("#name1").val()) != "" && $.trim($("#name2").val()) != "" && $.trim($("#name3").val()) != "" && $.trim($("#name4").val()) != ""){
             team[0].name = $.trim($("#name1").val())
@@ -493,6 +497,7 @@ $(document).ready(function(){
             if (team.length === 4){
                 console.log(team);
                 ready += 1
+                am_ready = true;
                 socket.emit('ready', {team: team, id: player.id, room:player.room});
                 if(ready === 2){
                     $('.team-creation-page').hide()
@@ -509,6 +514,7 @@ $(document).ready(function(){
                         startGame();
                         $('.game-page').show()
                         socket.emit('start game', player);
+                        am_ready=false;
                     }, interval);
                 }
             }
