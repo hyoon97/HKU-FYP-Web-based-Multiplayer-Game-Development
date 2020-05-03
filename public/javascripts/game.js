@@ -585,11 +585,13 @@ function startGame(){
             console.log(dead)
             if(dead == 4){
                 console.log('lost')
-                socket.emit("surrender", {room: room})
+                socket.emit("surrender", {room: room});
+                alert('DEFEAT');
                 Crafty.stop(true)
                 Crafty("2D").each(function() {
                     this.destroy();
                 });
+                $('.game-page').hide();
                 $('.menu-page').show();
                 // location.reload();
             }
@@ -711,13 +713,15 @@ function startGame(){
         })
 
         socket.on('victory', function(){
-            console.log('victory')
-            Crafty.stop(true)
+            console.log('victory');
+            alert('VICTORY');
+            Crafty.stop(true);
             Crafty("2D").each(function() {
                     this.destroy();
             });
 
             // Crafty.init()
+            $('game-page').hide();
             $('.menu-page').show();
             // location.reload();
         })
