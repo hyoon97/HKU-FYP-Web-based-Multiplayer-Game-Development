@@ -243,6 +243,10 @@ io.on('connection', function(socket){
         socket.to(data.room).emit('get damage', data);
     })
 
+    socket.on('stun', function(data){
+        socket.to(data.room).emit('get stun', data)
+    })
+
     socket.on('heal', function(data){
         socket.stats.dmg_dealt += data.dmg;
         socket.to(data.room).emit('enemy heal', data);

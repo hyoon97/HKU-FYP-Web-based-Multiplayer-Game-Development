@@ -229,36 +229,34 @@ function startGame(){
                             if(unitClicked){
                                 var x = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).left
                                 var y = iso.pos2px(iso.px2pos(unitClicked.x, unitClicked.y).x, iso.px2pos(unitClicked.x, unitClicked.y).y+3).top
-                                if(!actionTaken && !moved){
-                                    if(!actionClicked){
-                                        for(i=0; i<4; i++){
-                                            if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
-                                                // if(actionClicked){
-                                                //     if(actionClicked == 'move'){
-                                                //         Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
-                                                //     }
-                                                //     else{
-                                                //         Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
-                                                //     }
-                                                // }
-                                                if(playerUnits[i].state != 'stun'){
-                                                    Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
-                                                    unitClicked = playerUnits[i];
-                                                    Crafty.trigger("button-1", unitClicked.actions[0].name);
-                                                    Crafty.trigger("button-2", unitClicked.actions[1].name);
-                                                    Crafty.trigger("button-3", unitClicked.actions[2].name);
-                                                    Crafty.trigger("button-4", unitClicked.actions[3].name);
-                                                    Crafty.trigger("button-5", 'Move');
-                                                    Crafty.trigger("button-6", 'End Turn');
-                                                    $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
-                                                    $(".character-image").show();
-                                                    Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
-                                                    Crafty.trigger("show name", unitClicked.name);
-                                                    actionClicked = null
-                                                    this.addComponent('selected_floor');
-                                                    this.removeComponent('floor');
-                                                    break;
-                                                }
+                                if(!actionClicked && !actionTaken && !moved){
+                                    for(i=0; i<4; i++){
+                                        if(iso.px2pos(this.x, this.y).x == iso.px2pos(playerUnits[i].x, playerUnits[i].y).x && iso.px2pos(this.x, this.y).y == iso.px2pos(playerUnits[i].x, playerUnits[i].y).y+3){
+                                            // if(actionClicked){
+                                            //     if(actionClicked == 'move'){
+                                            //         Crafty.trigger('HideRange', {x: x, y: y, range: unitClicked.move})
+                                            //     }
+                                            //     else{
+                                            //         Crafty.trigger('HideRange', {x: x, y: y, range: actionClicked.range})
+                                            //     }
+                                            // }
+                                            if(playerUnits[i].state != 'stun'){
+                                                Crafty.trigger('ChangeUnit', {x: unitClicked.x, y:unitClicked.y});
+                                                unitClicked = playerUnits[i];
+                                                Crafty.trigger("button-1", unitClicked.actions[0].name);
+                                                Crafty.trigger("button-2", unitClicked.actions[1].name);
+                                                Crafty.trigger("button-3", unitClicked.actions[2].name);
+                                                Crafty.trigger("button-4", unitClicked.actions[3].name);
+                                                Crafty.trigger("button-5", 'Move');
+                                                Crafty.trigger("button-6", 'End Turn');
+                                                $(".character-image").attr("src","/images/character/"+unitClicked.image_src+".png");
+                                                $(".character-image").show();
+                                                Crafty.trigger("show hp", unitClicked.hp + "/" + unitClicked.max_hp);
+                                                Crafty.trigger("show name", unitClicked.name);
+                                                actionClicked = null
+                                                this.addComponent('selected_floor');
+                                                this.removeComponent('floor');
+                                                break;
                                             }
                                         }
                                     }
@@ -296,9 +294,12 @@ function startGame(){
                                                     if(Crafty.math.distance(x, y, this.x, this.y) < 35.8 * actionClicked.range){
                                                         console.log('give dmg')
                                                         enemyUnits[i].hp = enemyUnits[i].hp - Math.max(0, unitClicked.extra_damage + actionClicked.value - enemyUnits[i].def)
+                                                        console.log(unitClicked.extra_damage)
+                                                        console.log(actionClicked.value)
+                                                        console.log(enemyUnits[i].def)
                                                         // enemyUnits[i].hp = 0
                                                         if(actionClicked.effect == 'stun'){
-                                                            enemyUnits[i].state = 'stun'
+                                                            socket.emit('stun', {room: room, index: i})
                                                         }
                                                         if(enemyUnits[i].hp == 0){
                                                             enemyUnits[i].destroy()
@@ -345,9 +346,10 @@ function startGame(){
                                                     this.addComponent('selected_floor');
                                                     this.removeComponent('floor');
                                                     moveUnit(this);
-                                                    actionTaken = true;
                                                 }
                                             }
+                                            actionTaken = true;
+                                            actionClicked = null;
                                         }
                                         else if (actionClicked.type == "buff"){
                                             for(i=0; i<4; i++){
@@ -391,7 +393,7 @@ function startGame(){
                                                             break;
                                                         }
                                                         else if(actionClicked.effect == "decrease defense"){
-                                                            enemyUnits[i].def = enemyUnits[i].def - enemyClicked.value
+                                                            enemyUnits[i].def = Math.max(0, enemyUnits[i].def - actionClicked.value)
                                                             socket.emit('dec_def', {room: room, dec_def: actionClicked.value, index: i});
                                                             Crafty.trigger('HideRange', {x:x, y:y, range: actionClicked.range})
                                                             actionTaken = true;
@@ -670,8 +672,10 @@ function startGame(){
                 unit.x = units[i].xPosition
                 unit.y = units[i].yPosition
                 unit.state = null;
+                unit.extra_damage = 0
                 unit.move = unitInfo.move;
                 unit.max_hp = unitInfo.hp;
+                unit.def = unitInfo.def
                 unit.hp = unitInfo.hp;
                 unit.name = unitInfo.name;
                 console.log(unit.hp)
@@ -738,14 +742,18 @@ function startGame(){
         socket.on('get damage', function(data){
             console.log('got ' + data.dmg + ' damage')
             console.log(playerUnits[data.index].hp)
-            // playerUnits[data.index].hp = playerUnits[data.index].hp - data.dmg
-            playerUnits[data.index].hp = 0
+            playerUnits[data.index].hp = playerUnits[data.index].hp - data.dmg
+            // playerUnits[data.index].hp = 0
             if(playerUnits[data.index].hp == 0){
                 socket.emit('death confirmed');
                 playerUnits[data.index].destroy()
             }
             endGame()
             console.log(playerUnits[data.index].hp)
+        })
+
+        socket.on('get stun', function(data){
+            playerUnits[data.index].state = 'stun';
         })
 
         socket.on('enemy heal', function(data){
@@ -760,7 +768,7 @@ function startGame(){
         socket.on('enemy inc_def', function(data){
             console.log("enemy's def increase by " + data.inc_def)
             console.log(enemyUnits[data.index].def)
-            enemyUnits[data.index].def = enemyUnits[data.index].def - data.inc_def
+            enemyUnits[data.index].def = enemyUnits[data.index].def + data.inc_def
             
             console.log(enemyUnits[data.index].def)
         })
@@ -768,14 +776,14 @@ function startGame(){
         socket.on('player dec_mov', function(data){
             console.log("player's mov decrease by " + data.dec_mov)
             console.log(playerUnits[data.index].move)
-            playerUnits[data.index].move = playerUnits[data.index].move - data.dec_mov
+            playerUnits[data.index].move = Math.max(1, playerUnits[data.index].move - data.dec_mov)
             console.log(playerUnits[data.index].move)
         })
 
         socket.on('player dec_def', function(data){
             console.log("player's defense decrease by " + data.dec_def)
             console.log(playerUnits[data.index].def)
-            playerUnits[data.index].def = playerUnits[data.index].def - data.dec_def
+            playerUnits[data.index].def = Math.max(0, playerUnits[data.index].def - data.dec_def)
             console.log(playerUnits[data.index].def)
         })
 
